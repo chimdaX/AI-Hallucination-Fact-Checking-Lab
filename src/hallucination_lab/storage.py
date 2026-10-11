@@ -58,8 +58,9 @@ def write_json_atomic(path: Path, model: BaseModel) -> None:
 def summarize_validation_error(exc: ValidationError, limit: int = 5) -> str:
     parts = []
     for err in exc.errors()[:limit]:
-        loc = ".".join(str(p) for p in err["loc"]) or "<root>"
-        parts.append(f"{loc}: {err['msg']}")
+        loc = ".".join(str(p) for p in err["loc"])
+        msg = err["msg"].removeprefix("Value error, ")  # Pydantic's prefix for our rules
+        parts.append(f"{loc}: {msg}" if loc else msg)
     extra = exc.error_count() - limit
     if extra > 0:
         parts.append(f"... and {extra} more")

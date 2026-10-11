@@ -73,11 +73,22 @@ Nothing is pushed, tagged, or released without explicit approval.
   `INSUFFICIENT_EVIDENCE`, never `CONTRADICTED`
 - Tests: missing evidence ≠ contradiction, numeric edge cases, human override
 
-## Phase 5: Streamlit UI and reports
+## ✅ Milestone 4: Streamlit interface and reports (Phase 5)
 
-- Pages: Dashboard, Analyze Response, Human Verification, Reports, Settings
-- Reports: JSON, CSV, Markdown, with citations, limitations, and unchecked claims listed
-- Every control wired to real functionality
+- Local Streamlit app: Dashboard, Analyze response, Human verification, Reports,
+  Reference collections, Getting started
+- Services layer (workspace, dashboard, reports) shared with the CLI
+- JSON / CSV / Markdown reports with active verdicts, revision history, cited evidence,
+  unresolved claims, integrity warnings, limitations, and a deterministic content
+  fingerprint; `hallab report`, `hallab ui`
+- State safety: reload per run, stale-view refusal, two-step confirmed saves, drafts
+- Upload of `.txt`/`.md` documents into user collections via the existing ingestion
+
+**Open follow-ups:**
+
+- Verify the interface on Windows and macOS browsers (Phase 8 CI)
+- Merge of concurrent edits (currently detected and refused)
+- Optional authentication if the app is ever shared beyond one machine
 
 ## Phase 6: Benchmark
 

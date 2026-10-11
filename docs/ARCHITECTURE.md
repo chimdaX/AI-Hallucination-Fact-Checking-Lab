@@ -232,6 +232,71 @@ terminal layer with an injectable prompter, so tests script complete reviewer se
 including quitting mid-way and resuming. The Phase 5 Streamlit UI will reuse the same
 core.
 
+## Milestone 4 decisions: web interface and reports
+
+### 27. Three layers: engines, services, UI
+
+```
+ui/ (Streamlit pages)  ->  services/ (workspace, dashboard, reports)  ->  engines
+                                                                          extraction/, retrieval/,
+                                                                          verification/, storage
+```
+
+Pages contain layout and input handling only. Every rule lives in the engines, which
+the CLI also uses, so the web interface cannot bypass an integrity check. Services
+contain no Streamlit code and are tested directly.
+
+### 28. Streamlit state: saved data is always reloaded
+
+Streamlit reruns the whole script on every interaction. Each run therefore reloads the
+current session from disk, and `st.session_state` holds only interface state: the
+selected session, the reviewer ID, the file version last displayed, and a pending
+confirmation. Three layers stop duplicate or conflicting writes:
+
+1. **View freshness:** before a write, the page compares the file version on disk with
+   the one it displayed. If they differ (another tab, the CLI, or a repeated click),
+   it refuses and refreshes.
+2. **Store:** saves pass `expected_version`, and the file must still have that hash.
+3. **Schema:** one active verdict per claim. A repeated commit of the same record is
+   a no-op.
+
+Repeated extraction of the same text in one browser session reopens the existing
+session unless the user asks for a new one.
+
+### 29. Two-step save for verdicts
+
+**Check and review** saves a draft and validates through `build_verification`. The
+confirmation panel shows the verdict, cited sources, assessments, limitations and
+rationale warnings. **Save verification** is disabled until the reviewer confirms, and
+also acknowledges any warnings. At commit time the verification is rebuilt and
+re-validated against the current file, so the stored timestamp and checks reflect
+the moment of saving.
+
+### 30. Reports are a pure function of validated records
+
+`build_report(session, checks)` re-validates the session and derives everything else
+from it. JSON is the canonical form, and CSV and Markdown are renderings of it.
+`content_sha256` hashes the report without `generated_at`, so identical data gives
+identical fingerprints. Active verdicts and revision history are separate fields
+(no double counting), and candidates and assessed evidence are separate lists. The
+report includes unresolved claims, integrity warnings and limitations. It contains no
+accuracy or hallucination-rate figure.
+
+### 31. Charts that cannot mislead
+
+Dashboard and report charts are single-series horizontal bars with direct labels,
+tooltips and a table view. They use one hue, with no red/green verdict colouring that
+would imply a score. Each chart sits next to a caption saying the counts are not an
+accuracy metric or a hallucination rate.
+
+### 32. Upload through the existing ingestion
+
+Uploaded files are reduced to a portable file name (directory parts from both POSIX
+and Windows paths are stripped). They are written to a temporary folder and
+registered with `CollectionCatalog.add_document`, so encoding, size, binary and
+duplicate checks are unchanged. Packaged collections stay read-only, and typed
+metadata is recorded as `user_supplied`.
+
 ## Risks and mitigations
 
 | Risk | Mitigation |
@@ -253,3 +318,6 @@ core.
 | Lost work on interruption | Drafts saved after every step inside the session file |
 | Reviewer cites a passage whose source changed | Source re-check blocks citation until retrieval is re-run |
 | Self-declared reviewer IDs | Documented limitation; cross-reviewer rule prevents accidents, not impersonation |
+| Streamlit reruns cause duplicate or stale writes | Reload-per-run, view-freshness check, store version check, idempotent commit |
+| Dashboard read as a hallucination rate | Captions on every count; split by data provenance; no rates computed |
+| Tracebacks shown to users | Per-page error boundary; `showErrorDetails = "none"` |

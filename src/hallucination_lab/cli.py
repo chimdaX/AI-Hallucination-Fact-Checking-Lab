@@ -7,7 +7,8 @@ Commands:
   hallab sessions show SESSION_ID
 
 Retrieval commands (sources, index, search, retrieve, eval) live in cli_retrieval.py;
-human verification commands (verify, verify status, verify summary) in cli_verify.py.
+human verification commands (verify, verify status, verify summary) in cli_verify.py;
+report and ui commands in cli_report.py.
 """
 
 from __future__ import annotations
@@ -19,7 +20,7 @@ from pathlib import Path
 
 from pydantic import ValidationError
 
-from hallucination_lab import __version__, cli_retrieval, cli_verify
+from hallucination_lab import __version__, cli_report, cli_retrieval, cli_verify
 from hallucination_lab.config import Settings
 from hallucination_lab.errors import HallucinationLabError
 from hallucination_lab.examples import load_examples
@@ -154,6 +155,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     cli_retrieval.register(sub)
     cli_verify.register(sub)
+    cli_report.register(sub)
     return parser
 
 

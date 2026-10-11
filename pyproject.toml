@@ -28,7 +28,9 @@ classifiers = [
 dependencies = ["pydantic>=2.6,<3"]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0", "ruff>=0.6"]
+# Web interface (Milestone 4). The CLI and all core features work without it.
+ui = ["streamlit>=1.50,<2"]
+dev = ["pytest>=8.0", "ruff>=0.6", "streamlit>=1.50,<2"]
 
 [project.scripts]
 hallab = "hallucination_lab.cli:main"

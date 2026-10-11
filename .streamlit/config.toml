@@ -1,0 +1,13 @@
+# Used when Streamlit is started from the repository root.
+[client]
+# Never show Python tracebacks in the browser; the app shows actionable messages
+# and logs details to the terminal.
+showErrorDetails = "none"
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false
+
+[server]
+# Uploaded reference documents are small text files.
+maxUploadSize = 5

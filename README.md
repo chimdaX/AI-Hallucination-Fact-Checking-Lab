@@ -11,12 +11,13 @@ The tool does not decide what is true on its own authority. Every verdict must c
 evidence and record how it was produced. Human judgments and automated suggestions are
 kept apart at the schema level.
 
-> **Status: pre-alpha (milestone 3 of 8).** Claim extraction, offline BM25 evidence
-> retrieval, and **human verification** (passage assessments, evidence-backed verdicts,
-> drafts, revision history) work and are tested. **All verdicts are human. No automated
-> verdicts exist.** The Streamlit UI, downloadable reports, and the verdict benchmark
-> have **not been built yet**. See [What works today](#what-works-today) and the
-> [roadmap](docs/ROADMAP.md).
+> **Status: pre-alpha (milestone 4 of 8).** Claim extraction, offline BM25 evidence
+> retrieval, **human verification** (passage assessments, evidence-backed verdicts,
+> drafts, revision history), a **local Streamlit web interface**, and **JSON / CSV /
+> Markdown reports** work and are tested. **All verdicts are human. No automated
+> verdicts exist.** The labelled verdict benchmark and an automated baseline have
+> **not been built yet**. The web interface runs locally; it is not deployed anywhere.
+> See [What works today](#what-works-today) and the [roadmap](docs/ROADMAP.md).
 
 ---
 
@@ -54,8 +55,9 @@ claims instead of whole responses.
 | Source re-check before citing (blocks evidence whose document changed) | ✅ implemented, tested | `verification/integrity.py` |
 | Verification progress (`verify status`) and summary (`verify summary [--json]`) | ✅ implemented, tested | `cli_verify.py` |
 | Automated baseline verification (deterministic cases only, labelled as automated) | ⏳ Phase 4 | — |
-| Streamlit interface | ⏳ Phase 5 | — |
-| Reports (JSON / CSV / Markdown) | ⏳ Phase 5 | — |
+| Local Streamlit web interface: dashboard, analysis, verification, reports, collections | ✅ implemented, tested (AppTest and headless-browser smoke test) | `app/streamlit_app.py`, `src/hallucination_lab/ui/` |
+| Verification reports: JSON / CSV / Markdown, deterministic fingerprint, full audit trail | ✅ implemented, tested | `services/reports.py`, `hallab report` |
+| UI-independent application services (workspace, dashboard, reports) | ✅ implemented, tested | `src/hallucination_lab/services/` |
 | Labelled benchmark and metrics | ⏳ Phase 6 | — |
 | Docker, CI, release | ⏳ Phase 8 | — |
 
@@ -104,14 +106,25 @@ cd ai-hallucination-verification-lab
 
 # Option A: uv (fast)
 uv venv .venv
-uv pip install -e ".[dev]"
+uv pip install -e ".[ui,dev]"      # [ui] = web interface (Streamlit); omit for CLI only
 
 # Option B: standard library venv + pip
 python -m venv .venv
 # Linux/macOS:   source .venv/bin/activate
 # Windows (PowerShell):   .venv\Scripts\Activate.ps1
-pip install -e ".[dev]"
+pip install -e ".[ui,dev]"
 ```
+
+### Web interface
+
+```bash
+streamlit run app/streamlit_app.py      # or: hallab ui
+```
+
+Then open http://localhost:8501. The interface covers the whole workflow: paste a
+response, extract and edit claims, retrieve evidence, record human verdicts (with
+drafts, confirmation, and revisions), and download reports. See
+[docs/WEB_INTERFACE.md](docs/WEB_INTERFACE.md).
 
 Try it:
 
@@ -152,6 +165,9 @@ hallab verify --session <session_id> --reviewer-id reviewer_01   # q pauses, rer
 hallab verify status  --session <session_id>
 hallab verify summary --session <session_id>                     # add --json for structured output
 hallab verify --session <session_id> --reviewer-id reviewer_01 --revise <verification_id>
+
+# 7. Export a traceable report (same generator as the web interface)
+hallab report --session <session_id> --format md --output report.md   # or json / csv
 ```
 
 How to judge claims, write rationales, and correct verdicts is covered in
@@ -207,7 +223,8 @@ ruff check .      # lint
 ruff format .     # format
 ```
 
-Platform note: development and testing so far have been on Linux (WSL2, Python 3.12).
+Platform note: development and testing so far have been on Linux (WSL2) with Python 3.12
+and 3.13. The web interface was smoke-tested in headless Chromium on the same system.
 Windows and macOS instructions above use standard Python tooling but **have not yet been
 verified**. Cross-platform CI is planned for Phase 8.
 
@@ -277,6 +294,13 @@ src/hallucination_lab/
   migrations.py      versioned session-schema migrations
   cli_retrieval.py   sources / index / search / retrieve / eval commands
   cli_verify.py      verify / verify status / verify summary
+  cli_report.py      report / ui
+  services/
+    workspace.py     conflict-safe load/save, claim edits, retrieval, verification
+    dashboard.py     totals across sessions (active verdicts only)
+    reports.py       JSON / CSV / Markdown reports
+  ui/                Streamlit pages (call services only)
+app/streamlit_app.py   web interface launcher
 data/examples/       synthetic response fixtures (hand-written, labelled as such)
 data/references/demo/  packaged reference collection + CONTENT_LICENSE.md
 data/evaluation/     labelled retrieval queries
@@ -288,7 +312,7 @@ docs/                architecture, retrieval guide, human verification guide, ro
 More detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) ·
 [docs/RETRIEVAL.md](docs/RETRIEVAL.md) ·
 [docs/HUMAN_VERIFICATION_GUIDE.md](docs/HUMAN_VERIFICATION_GUIDE.md) ·
-[docs/ROADMAP.md](docs/ROADMAP.md)
+[docs/WEB_INTERFACE.md](docs/WEB_INTERFACE.md) · [docs/ROADMAP.md](docs/ROADMAP.md)
 
 ## Retrieval is not verification
 
