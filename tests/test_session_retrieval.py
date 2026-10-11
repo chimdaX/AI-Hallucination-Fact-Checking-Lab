@@ -10,6 +10,7 @@ from hallucination_lab.errors import HallucinationLabError, SessionLoadError
 from hallucination_lab.extraction.editing import edit_claim, remove_claim
 from hallucination_lab.ids import SESSION, make_id
 from hallucination_lab.models import (
+    SCHEMA_VERSION,
     AIResponse,
     ResponseProvenance,
     RetrievalOutcome,
@@ -39,7 +40,7 @@ def lake_session():
 
 def test_retrieval_attaches_traceable_candidates(lake_session, searcher):
     updated, run = retrieve_for_session(lake_session, searcher)
-    assert updated.schema_version == "1.1.0"
+    assert updated.schema_version == SCHEMA_VERSION
     assert updated.verifications == []  # retrieval never produces verdicts
     bridge = lake_session.claims[0].claim_id
     evidence = updated.evidence_for(bridge)

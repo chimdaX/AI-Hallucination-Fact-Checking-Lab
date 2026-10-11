@@ -11,11 +11,12 @@ The tool does not decide what is true on its own authority. Every verdict must c
 evidence and record how it was produced. Human judgments and automated suggestions are
 kept apart at the schema level.
 
-> **Status: pre-alpha (milestone 2 of 8).** Claim extraction, offline reference
-> collections, and BM25 evidence retrieval work and are tested. **Verdicts are not
-> produced yet.** Human verification, the Streamlit UI, reports, and the verdict
-> benchmark have **not been built yet**. See [What works today](#what-works-today) and
-> the [roadmap](docs/ROADMAP.md).
+> **Status: pre-alpha (milestone 3 of 8).** Claim extraction, offline BM25 evidence
+> retrieval, and **human verification** (passage assessments, evidence-backed verdicts,
+> drafts, revision history) work and are tested. **All verdicts are human. No automated
+> verdicts exist.** The Streamlit UI, downloadable reports, and the verdict benchmark
+> have **not been built yet**. See [What works today](#what-works-today) and the
+> [roadmap](docs/ROADMAP.md).
 
 ---
 
@@ -47,7 +48,12 @@ claims instead of whole responses.
 | Retrieval results saved to sessions with full provenance (schema 1.1.0, 1.0.0 still loads) | ✅ implemented, tested | `retrieval/session_retrieval.py`, `migrations.py` |
 | Offline demo collection: 10 real source texts (Wikipedia/Wikiquote CC BY-SA, NASA) | ✅ packaged | `data/references/demo/` |
 | Retrieval evaluation (Recall@k, Precision@k, MRR) on 24 labelled queries | ✅ implemented | `retrieval/evaluation.py`, `data/evaluation/` |
-| Automated baseline verification and human verification flow | ⏳ Phase 4 | — |
+| Interactive human verification (`hallab verify`): passage assessments, verdicts, cited evidence, rationale checks | ✅ implemented, tested | `verification/interactive.py`, `verification/workflow.py` |
+| Drafts with pause and resume; conflict-safe, append-only session saves | ✅ implemented, tested | `storage.py`, `verification/workflow.py` |
+| Revision chains (linear, authorized cross-reviewer corrections, history preserved) | ✅ implemented, tested | `models.py`, `verification/workflow.py` |
+| Source re-check before citing (blocks evidence whose document changed) | ✅ implemented, tested | `verification/integrity.py` |
+| Verification progress (`verify status`) and summary (`verify summary [--json]`) | ✅ implemented, tested | `cli_verify.py` |
+| Automated baseline verification (deterministic cases only, labelled as automated) | ⏳ Phase 4 | — |
 | Streamlit interface | ⏳ Phase 5 | — |
 | Reports (JSON / CSV / Markdown) | ⏳ Phase 5 | — |
 | Labelled benchmark and metrics | ⏳ Phase 6 | — |
@@ -78,6 +84,14 @@ saved. Each one has a test.
   fails to load.
 - Reference documents are content-addressed. A changed or missing document blocks
   indexing and search until it is restored or deliberately re-registered.
+- A SUPPORTED or CONTRADICTED verdict from the verification workflow must cite passages
+  the reviewer **explicitly assessed** as supporting or contradicting. A high retrieval
+  score can never stand in for that judgement.
+- Rationales that are empty, placeholders ("n/a", "tbd"), bare scores ("4/5"), or a
+  single verdict word are rejected by the schema.
+- Saved verifications and evidence are append-only. A correction is a new record linked
+  by `revision_of`, histories cannot branch or loop, and revising another reviewer's
+  record requires a recorded authorization.
 
 ## Quick start
 
@@ -132,7 +146,16 @@ hallab sessions show <session_id>
 
 # 5. Measure retrieval quality on the labelled query set
 hallab eval retrieval
+
+# 6. Human verification: assess passages, choose verdicts, write rationales
+hallab verify --session <session_id> --reviewer-id reviewer_01   # q pauses, rerun resumes
+hallab verify status  --session <session_id>
+hallab verify summary --session <session_id>                     # add --json for structured output
+hallab verify --session <session_id> --reviewer-id reviewer_01 --revise <verification_id>
 ```
+
+How to judge claims, write rationales, and correct verdicts is covered in
+[docs/HUMAN_VERIFICATION_GUIDE.md](docs/HUMAN_VERIFICATION_GUIDE.md).
 
 Excerpt of step 2's output:
 
@@ -246,18 +269,26 @@ src/hallucination_lab/
     catalog.py       collections on disk, integrity checks, index lifecycle
     session_retrieval.py  attach candidates to sessions (no verdicts)
     evaluation.py    Recall@k / Precision@k / MRR
+  verification/
+    rationale.py     rationale error/warning checks
+    integrity.py     re-check evidence against its source before citing
+    workflow.py      verdict building, revisions, drafts, progress, summary
+    interactive.py   terminal review flow (hallab verify)
   migrations.py      versioned session-schema migrations
   cli_retrieval.py   sources / index / search / retrieve / eval commands
+  cli_verify.py      verify / verify status / verify summary
 data/examples/       synthetic response fixtures (hand-written, labelled as such)
 data/references/demo/  packaged reference collection + CONTENT_LICENSE.md
 data/evaluation/     labelled retrieval queries
 scripts/             dataset build scripts
-tests/               pytest suite (fixtures/ includes a real schema-1.0.0 session)
-docs/                architecture, retrieval guide, roadmap
+tests/               pytest suite (fixtures/ holds real schema-1.0.0 and 1.1.0 sessions)
+docs/                architecture, retrieval guide, human verification guide, roadmap
 ```
 
 More detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) ·
-[docs/RETRIEVAL.md](docs/RETRIEVAL.md) · [docs/ROADMAP.md](docs/ROADMAP.md)
+[docs/RETRIEVAL.md](docs/RETRIEVAL.md) ·
+[docs/HUMAN_VERIFICATION_GUIDE.md](docs/HUMAN_VERIFICATION_GUIDE.md) ·
+[docs/ROADMAP.md](docs/ROADMAP.md)
 
 ## Retrieval is not verification
 
@@ -271,7 +302,25 @@ are never converted into confidence or hallucination probabilities.
 
 Retrieval results: Recall@5 0.789, MRR 0.728. These describe passage retrieval only;
 see [docs/RETRIEVAL.md](docs/RETRIEVAL.md#retrieval-evaluation) for how the labels were
-made, the failure cases, and limitations.
+made, the failure cases, and limitations. **They are not hallucination-detection
+accuracy.** No verdict accuracy has been measured yet, because that needs the
+human-labelled benchmark planned for Phase 6.
+
+## Human verification
+
+Verdicts come only from a person using `hallab verify`:
+
+1. Label each retrieved passage as SUPPORTING, CONTRADICTING, IRRELEVANT, or UNCERTAIN.
+   The BM25 score is shown as "lexical overlap, NOT support".
+2. Choose SUPPORTED, CONTRADICTED, INSUFFICIENT_EVIDENCE, or NOT_CHECKABLE.
+   SUPPORTED and CONTRADICTED require passages you labelled accordingly. Missing
+   evidence leads to INSUFFICIENT_EVIDENCE, never CONTRADICTED.
+3. Write a rationale. Placeholders are rejected and generic text is flagged.
+4. Review the summary and save explicitly.
+
+Each source shows whether it still matches what was retrieved and a credibility note.
+Demo sources are marked "credibility not independently established", and that caveat
+is stored with any verdict that cites them.
 
 ## Data and content policy
 

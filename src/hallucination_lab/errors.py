@@ -29,6 +29,14 @@ class SessionLoadError(StorageError):
     """A stored session exists but is unreadable or fails schema validation."""
 
 
+class SessionConflictError(StorageError):
+    """The session file changed on disk after it was loaded (e.g. another process saved)."""
+
+
+class AuditTrailError(StorageError):
+    """A save would modify or remove an existing verification or evidence record."""
+
+
 class InvalidIdentifierError(StorageError):
     """An identifier is malformed (and could be unsafe to use in a file path)."""
 
@@ -70,3 +78,10 @@ class StaleIndexError(ReferenceCollectionError):
 
 class QueryError(ReferenceCollectionError):
     """A search query is empty or contains no searchable terms."""
+
+
+# -------------------------------------------------------------------- verification
+
+
+class VerificationError(HallucinationLabError):
+    """A verification, draft or revision request is invalid."""

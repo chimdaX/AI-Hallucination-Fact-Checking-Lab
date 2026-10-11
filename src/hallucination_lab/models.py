@@ -34,11 +34,15 @@ from pydantic import (
 
 from hallucination_lab import __version__
 from hallucination_lab.ids import ID_PATTERN, content_sha256, response_id_for
+from hallucination_lab.verification.rationale import rationale_errors
 
 # 1.1.0 (Milestone 2): optional retrieval provenance fields on Evidence and
 # PassageLocation, plus VerificationSession.retrieval_runs. 1.0.x files load
 # unchanged (see migrations.py).
-SCHEMA_VERSION = "1.1.0"
+# 1.2.0 (Milestone 3): optional human-verification fields on Verification
+# (session_id, evidence_assessments, revision chain, noted_limitations) plus
+# VerificationSession.verification_drafts.
+SCHEMA_VERSION = "1.2.0"
 SUPPORTED_SCHEMA_MAJOR = 1
 
 Identifier = Annotated[str, StringConstraints(pattern=ID_PATTERN)]
@@ -144,6 +148,15 @@ class Verdict(str, Enum):
     CONTRADICTED = "CONTRADICTED"
     INSUFFICIENT_EVIDENCE = "INSUFFICIENT_EVIDENCE"
     NOT_CHECKABLE = "NOT_CHECKABLE"
+
+
+class EvidenceLabel(str, Enum):
+    """A human reviewer's judgement of what one retrieved passage shows about a claim."""
+
+    SUPPORTING = "SUPPORTING"
+    CONTRADICTING = "CONTRADICTING"
+    IRRELEVANT = "IRRELEVANT"
+    UNCERTAIN = "UNCERTAIN"
 
 
 class VerificationMethod(str, Enum):
@@ -410,6 +423,61 @@ class Provenance(StrictModel):
     parameters: dict[str, ScalarValue] = Field(default_factory=dict)
 
 
+def _optional_text(value: str | None) -> str | None:
+    if value is None:
+        return None
+    value = value.strip()
+    return value or None
+
+
+OptionalText = Annotated[str | None, AfterValidator(_optional_text)]
+
+
+class EvidenceAssessment(StrictModel):
+    """A reviewer's label for one retrieved passage.
+
+    There is deliberately no retrieval score here: lexical relevance and a
+    human's evidential judgement are different things and are stored apart.
+    """
+
+    evidence_id: Identifier
+    label: EvidenceLabel
+    explanation: OptionalText = None
+    # Hash of the passage the reviewer actually read (equals Evidence.passage_sha256).
+    passage_sha256: Sha256Hex | None = None
+
+
+def _check_assessments(
+    assessments: list[EvidenceAssessment],
+    supporting: list[str],
+    contradicting: list[str],
+    require: bool,
+) -> None:
+    by_id: dict[str, EvidenceAssessment] = {}
+    for a in assessments:
+        if a.evidence_id in by_id:
+            raise ValueError(f"evidence {a.evidence_id} is assessed more than once")
+        by_id[a.evidence_id] = a
+    for ids, label in (
+        (supporting, EvidenceLabel.SUPPORTING),
+        (contradicting, EvidenceLabel.CONTRADICTING),
+    ):
+        for eid in ids:
+            assessment = by_id.get(eid)
+            if assessment is None:
+                if require:
+                    raise ValueError(
+                        f"cited evidence {eid} has no evidence assessment; a retrieved passage "
+                        f"is never treated as {label.value.lower()} automatically"
+                    )
+                continue
+            if assessment.label is not label:
+                raise ValueError(
+                    f"evidence {eid} is cited as {label.value.lower()} but was assessed as "
+                    f"{assessment.label.value}"
+                )
+
+
 class Verification(StrictModel):
     verification_id: Identifier
     claim_id: Identifier
@@ -421,9 +489,32 @@ class Verification(StrictModel):
     reviewer_id: str | None = None
     verification_timestamp: AwareDatetime = Field(default_factory=utc_now)
     provenance: Provenance
+    # --- schema 1.2+: human verification workflow (optional for older records)
+    # Set on every record created by the 1.2 workflow; such records must assess
+    # every passage they cite.
+    session_id: Identifier | None = None
+    evidence_assessments: list[EvidenceAssessment] = Field(default_factory=list)
+    # Revision chain: a correction is a new record pointing at the one it replaces.
+    revision_of: Identifier | None = None
+    revision_reason: OptionalText = None
+    # Required (checked at session level) when revising another reviewer's record.
+    revision_authorization: OptionalText = None
+    # Caveats the reviewer was shown, e.g. unconfirmed source credibility.
+    noted_limitations: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def _rules(self) -> Verification:
+        problems = rationale_errors(self.reasoning)
+        if problems:
+            raise ValueError(f"reasoning rejected: {problems[0]}")
+        if self.revision_of is not None:
+            if self.revision_of == self.verification_id:
+                raise ValueError("a verification cannot revise itself")
+            reason_problems = rationale_errors(self.revision_reason)
+            if reason_problems:
+                raise ValueError(f"a revision needs a correction reason: {reason_problems[0]}")
+        elif self.revision_reason or self.revision_authorization:
+            raise ValueError("revision_reason/revision_authorization require revision_of")
         human = self.verification_method is VerificationMethod.HUMAN
         if human and not (self.reviewer_id and self.reviewer_id.strip()):
             raise ValueError("human verifications must record a reviewer_id")
@@ -442,11 +533,39 @@ class Verification(StrictModel):
             self.provenance.model_name
         ):
             raise ValueError("model suggestions must record provenance.model_name")
+        if self.revision_of and not human:
+            raise ValueError("only human verifications can be revised in this version")
+        _check_assessments(
+            self.evidence_assessments,
+            self.supporting_evidence_ids,
+            self.contradicting_evidence_ids,
+            require=self.session_id is not None,
+        )
         return self
 
     @property
     def is_human_judgment(self) -> bool:
         return self.verification_method is VerificationMethod.HUMAN
+
+    @property
+    def cited_evidence_ids(self) -> list[str]:
+        return [*self.supporting_evidence_ids, *self.contradicting_evidence_ids]
+
+
+class VerificationDraft(StrictModel):
+    """Unfinished work on one claim by one reviewer. Never counts as a verification."""
+
+    claim_id: Identifier
+    reviewer_id: NonBlankStr
+    started_at: AwareDatetime
+    updated_at: AwareDatetime
+    revision_of: Identifier | None = None
+    revision_reason: str | None = None  # unvalidated work-in-progress text
+    evidence_assessments: list[EvidenceAssessment] = Field(default_factory=list)
+    verdict: Verdict | None = None
+    rationale: str | None = None  # unvalidated work-in-progress text
+    supporting_evidence_ids: list[Identifier] = Field(default_factory=list)
+    contradicting_evidence_ids: list[Identifier] = Field(default_factory=list)
 
 
 # -------------------------------------------------------------------------- session
@@ -483,6 +602,7 @@ class VerificationSession(StrictModel):
     evidence: list[Evidence] = Field(default_factory=list)
     verifications: list[Verification] = Field(default_factory=list)
     retrieval_runs: list[RetrievalRun] = Field(default_factory=list)
+    verification_drafts: list[VerificationDraft] = Field(default_factory=list)
     notes: str | None = None
 
     @model_validator(mode="after")
@@ -509,7 +629,12 @@ class VerificationSession(StrictModel):
                 raise ValueError(
                     f"verification {ver.verification_id} references unknown claim {ver.claim_id}"
                 )
-            for eid in [*ver.supporting_evidence_ids, *ver.contradicting_evidence_ids]:
+            if ver.session_id is not None and ver.session_id != self.session_id:
+                raise ValueError(
+                    f"verification {ver.verification_id} belongs to session {ver.session_id}"
+                )
+            assessed = [a.evidence_id for a in ver.evidence_assessments]
+            for eid in [*ver.supporting_evidence_ids, *ver.contradicting_evidence_ids, *assessed]:
                 if eid not in evidence_claim:
                     raise ValueError(
                         f"verification {ver.verification_id} cites unknown evidence {eid}"
@@ -520,6 +645,8 @@ class VerificationSession(StrictModel):
                         "that was retrieved for a different claim"
                     )
         self._check_retrieval_runs(claim_ids, evidence_claim)
+        self._check_revisions()
+        self._check_drafts(claim_ids, evidence_claim)
         if self.updated_at < self.created_at:
             raise ValueError("updated_at cannot be earlier than created_at")
         return self
@@ -544,6 +671,69 @@ class VerificationSession(StrictModel):
                             f"belongs to a different claim than {result.claim_id}"
                         )
 
+    def _check_revisions(self) -> None:
+        by_id = {v.verification_id: v for v in self.verifications}
+        revised = Counter(v.revision_of for v in self.verifications if v.revision_of)
+        branched = [vid for vid, n in revised.items() if n > 1]
+        if branched:
+            raise ValueError(
+                f"revision history branches: {sorted(branched)} revised more than once"
+            )
+        for v in self.verifications:
+            if not v.revision_of:
+                continue
+            prev = by_id.get(v.revision_of)
+            if prev is None:
+                raise ValueError(
+                    f"{v.verification_id} revises unknown verification {v.revision_of}"
+                )
+            if prev.claim_id != v.claim_id:
+                raise ValueError(f"{v.verification_id} revises a verification of another claim")
+            if not prev.is_human_judgment:
+                raise ValueError(f"{v.verification_id} revises a non-human verification")
+            if prev.verification_timestamp >= v.verification_timestamp:
+                raise ValueError(f"{v.verification_id} must be later than the record it revises")
+            if prev.reviewer_id != v.reviewer_id and not v.revision_authorization:
+                raise ValueError(
+                    f"{v.reviewer_id} revised {prev.reviewer_id}'s verification "
+                    f"{prev.verification_id} without a recorded revision_authorization"
+                )
+            seen = {v.verification_id}
+            cursor = prev
+            while cursor is not None:
+                if cursor.verification_id in seen:
+                    raise ValueError(f"circular revision chain at {cursor.verification_id}")
+                seen.add(cursor.verification_id)
+                cursor = by_id.get(cursor.revision_of) if cursor.revision_of else None
+        # At most one active human verification per claim (legacy 1.0/1.1 records
+        # without session_id are tolerated so older sessions still load).
+        superseded = set(revised)
+        active: dict[str, list[Verification]] = {}
+        for v in self.verifications:
+            if v.is_human_judgment and v.verification_id not in superseded:
+                active.setdefault(v.claim_id, []).append(v)
+        for claim_id, records in active.items():
+            if len(records) > 1 and any(r.session_id for r in records):
+                raise ValueError(
+                    f"claim {claim_id} has {len(records)} active human verifications; "
+                    "corrections must be recorded as revisions"
+                )
+
+    def _check_drafts(self, claim_ids: set[str], evidence_claim: dict[str, str]) -> None:
+        keys = [(d.claim_id, d.reviewer_id) for d in self.verification_drafts]
+        if len(keys) != len(set(keys)):
+            raise ValueError("more than one draft for the same claim and reviewer")
+        verification_ids = {v.verification_id for v in self.verifications}
+        for d in self.verification_drafts:
+            if d.claim_id not in claim_ids:
+                raise ValueError(f"draft references unknown claim {d.claim_id}")
+            if d.revision_of and d.revision_of not in verification_ids:
+                raise ValueError(f"draft revises unknown verification {d.revision_of}")
+            ids = [a.evidence_id for a in d.evidence_assessments]
+            for eid in [*ids, *d.supporting_evidence_ids, *d.contradicting_evidence_ids]:
+                if evidence_claim.get(eid) != d.claim_id:
+                    raise ValueError(f"draft for {d.claim_id} references foreign evidence {eid}")
+
     # --- read helpers -------------------------------------------------------------
 
     @property
@@ -565,10 +755,38 @@ class VerificationSession(StrictModel):
             key=lambda v: v.verification_timestamp,
         )
 
+    def superseded_ids(self) -> set[str]:
+        return {v.revision_of for v in self.verifications if v.revision_of}
+
     def human_verdict(self, claim_id: str) -> Verification | None:
-        """Latest human judgment for a claim; automated suggestions are ignored."""
-        human = [v for v in self.verifications_for(claim_id) if v.is_human_judgment]
+        """The active human judgment for a claim: the latest record that has not been
+        superseded by a revision. Automated suggestions are ignored."""
+        superseded = self.superseded_ids()
+        human = [
+            v
+            for v in self.verifications_for(claim_id)
+            if v.is_human_judgment and v.verification_id not in superseded
+        ]
         return human[-1] if human else None
+
+    def get_verification(self, verification_id: str) -> Verification:
+        for v in self.verifications:
+            if v.verification_id == verification_id:
+                return v
+        raise KeyError(verification_id)
+
+    def revision_chain(self, verification_id: str) -> list[Verification]:
+        """Oldest-first chain ending at ``verification_id``."""
+        chain = [self.get_verification(verification_id)]
+        while chain[0].revision_of:
+            chain.insert(0, self.get_verification(chain[0].revision_of))
+        return chain
+
+    def get_draft(self, claim_id: str, reviewer_id: str) -> VerificationDraft | None:
+        for d in self.verification_drafts:
+            if d.claim_id == claim_id and d.reviewer_id == reviewer_id:
+                return d
+        return None
 
     def pending_review(self) -> list[Claim]:
         """Active claims flagged for verification that have no human verdict yet."""
@@ -581,8 +799,9 @@ class VerificationSession(StrictModel):
     def human_cited_evidence_ids(self) -> set[str]:
         """Evidence a human reviewer actually relied on (vs. merely retrieved)."""
         cited: set[str] = set()
+        superseded = self.superseded_ids()
         for v in self.verifications:
-            if v.is_human_judgment:
+            if v.is_human_judgment and v.verification_id not in superseded:
                 cited.update(v.supporting_evidence_ids)
                 cited.update(v.contradicting_evidence_ids)
         return cited

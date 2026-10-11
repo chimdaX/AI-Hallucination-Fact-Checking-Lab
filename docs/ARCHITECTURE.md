@@ -167,6 +167,71 @@ written before the retriever was run. The labels therefore survive re-chunking a
 not biased toward what the retriever happened to return. Defaults were not tuned on the
 evaluation set.
 
+## Milestone 3 decisions: human verification
+
+### 19. Four separate concepts, four separate records
+
+A claim (`Claim`), an evidence candidate (`Evidence`, with its BM25 score), a reviewer's
+judgement of one passage (`EvidenceAssessment`, which deliberately has **no score
+field**), and a verdict (`Verification`) are stored separately. Records created by the
+workflow carry `session_id`. For those, the schema requires every cited passage to have
+an explicit matching assessment. "The passage ranked first" can therefore never turn
+into "the passage supports the claim" without a person saying so.
+
+### 20. Corrections are new records (revision chains)
+
+A saved verdict is never edited. A correction is a new `Verification` with
+`revision_of`, a required `revision_reason`, and, when correcting someone else's work,
+a required `revision_authorization`. The session validator enforces that a revision
+targets the same claim, is later in time, comes from a human, and does not branch or
+loop. The *active* verdict is the newest unsuperseded record, and superseded records
+are not counted as additional verifications. This is how audit-grade systems handle
+corrections: the history is the data.
+
+### 21. One active verdict per claim, with legacy tolerance
+
+Workflow-created records may have only one active human verdict per claim. Sessions
+from schema 1.0/1.1, where several human records for a claim were allowed, still load:
+their records have no `session_id` and keep the older rule that the latest one wins.
+
+### 22. Append-only and conflict-safe storage
+
+`JsonSessionStore.save` compares the new session with the file on disk and refuses to
+modify or drop any existing verification or evidence record (`AuditTrailError`). The
+interactive workflow saves with an expected file version (a SHA-256 of the file
+contents), so a concurrent change raises `SessionConflictError` instead of being
+overwritten. There is no OS-level lock, so this is detection rather than prevention,
+which is enough for a single-user local tool.
+
+### 23. Drafts live inside the session
+
+Work in progress is a `VerificationDraft` in the same session file. It is validated
+and written atomically like everything else, so recovery needs no second file. Drafts
+are saved after every step, so an interruption loses at most the current answer.
+Drafts are never counted as verifications.
+
+### 24. Re-check sources before relying on them
+
+Before evidence can be cited, `verification/integrity.py` confirms that the source is
+still registered, the file hash matches the one recorded at retrieval, and the text at
+the stored offsets still hashes to the passage. Changed or missing sources block
+citation until retrieval is re-run. An unavailable collection or legacy evidence
+without hashes is allowed, but it is recorded as a limitation on the verdict.
+
+### 25. Rationale checks: hard floor, soft guidance
+
+Placeholders, bare scores, empty text, and single verdict words are rejected in the
+schema, so no code path can store them. Generic phrases, rationales unrelated to the
+evidence, and NOT_CHECKABLE used for "couldn't find it" produce warnings that a
+reviewer may override. There is deliberately no minimum length.
+
+### 26. UI-independent workflow core
+
+`verification/workflow.py` holds all rules and has no I/O. `interactive.py` is a thin
+terminal layer with an injectable prompter, so tests script complete reviewer sessions,
+including quitting mid-way and resuming. The Phase 5 Streamlit UI will reuse the same
+core.
+
 ## Risks and mitigations
 
 | Risk | Mitigation |
@@ -183,3 +248,8 @@ evaluation set.
 | Reviewers treat a high BM25 score as support | Banner on every result; no score-to-confidence conversion; docs show a contradicting top hit |
 | Reference document silently edited | Content-addressed IDs, registration hashes, passage hashes, refusal to index |
 | Licence violations in reference text | Only CC BY-SA and U.S. Government sources, attribution file, per-document licence fields |
+| A retrieval score treated as a verdict | Schema requires explicit per-passage assessments for cited evidence; score shown as "NOT support" |
+| Silent edits to past judgements | Append-only storage check; corrections only via revision records with reasons |
+| Lost work on interruption | Drafts saved after every step inside the session file |
+| Reviewer cites a passage whose source changed | Source re-check blocks citation until retrieval is re-run |
+| Self-declared reviewer IDs | Documented limitation; cross-reviewer rule prevents accidents, not impersonation |

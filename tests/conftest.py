@@ -149,3 +149,63 @@ def test_collection(catalog, synthetic_files):
 @pytest.fixture
 def searcher(catalog, test_collection):
     return catalog.searcher(test_collection)[0]
+
+
+# --------------------------------------------------------------- verification fixtures
+
+LAKE_RESPONSE = (
+    "The first bridge across Lake Verenna was completed in 1880. "
+    "The Osterland Railway is 48 km long. "
+    "Brindle has a population of 90,000 people."
+)
+
+
+class ScriptedPrompter:
+    """Feeds scripted answers to the interactive workflow; EOF when exhausted."""
+
+    def __init__(self, answers):
+        self.answers = list(answers)
+        self.output: list[str] = []
+        self.prompts: list[str] = []
+
+    def ask(self, prompt: str) -> str:
+        self.prompts.append(prompt)
+        if not self.answers:
+            raise EOFError
+        return self.answers.pop(0)
+
+    def say(self, text: str = "") -> None:
+        self.output.append(text)
+
+    @property
+    def text(self) -> str:
+        return "\n".join(self.output + self.prompts)
+
+
+@pytest.fixture
+def verification_env(settings, catalog, searcher):
+    """A saved session (bridge / railway / population claims) with retrieval results."""
+    from hallucination_lab.retrieval.session_retrieval import retrieve_for_session
+    from hallucination_lab.storage import JsonSessionStore
+
+    response = AIResponse.from_text(LAKE_RESPONSE, ResponseProvenance.SYNTHETIC_FIXTURE)
+    session = new_session(response, title="Lake verification", session_id=make_id(SESSION, "v"))
+    session, _ = retrieve_for_session(session, searcher)
+    store = JsonSessionStore(settings.sessions_dir)
+    store.save(session)
+    bridge, railway, population = (c.claim_id for c in session.claims)
+    return {
+        "store": store,
+        "catalog": catalog,
+        "session_id": session.session_id,
+        "bridge": bridge,
+        "railway": railway,
+        "population": population,
+    }
+
+
+def evidence_containing(session, claim_id: str, text: str) -> str:
+    for ev in session.evidence_for(claim_id):
+        if text in ev.quoted_passage:
+            return ev.evidence_id
+    raise AssertionError(f"no evidence for {claim_id} containing {text!r}")

@@ -26,8 +26,15 @@ def _from_1_0(data: dict[str, Any]) -> dict[str, Any]:
     return {**data, "schema_version": "1.1.0"}
 
 
+def _from_1_1(data: dict[str, Any]) -> dict[str, Any]:
+    # 1.2.0 only added optional fields (human-verification fields on Verification,
+    # VerificationSession.verification_drafts). Existing verifications have no
+    # session_id, so they keep the legacy rules they were written under.
+    return {**data, "schema_version": "1.2.0"}
+
+
 # Keyed by (major, minor) of the version being migrated *from*.
-MIGRATIONS: dict[tuple[int, int], Migration] = {(1, 0): _from_1_0}
+MIGRATIONS: dict[tuple[int, int], Migration] = {(1, 0): _from_1_0, (1, 1): _from_1_1}
 
 
 def _major_minor(version: str) -> tuple[int, int] | None:

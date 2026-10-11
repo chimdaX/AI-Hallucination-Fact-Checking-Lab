@@ -13,6 +13,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import os
@@ -24,7 +25,9 @@ from pathlib import Path
 from pydantic import BaseModel, ValidationError
 
 from hallucination_lab.errors import (
+    AuditTrailError,
     InvalidIdentifierError,
+    SessionConflictError,
     SessionLoadError,
     SessionNotFoundError,
     StorageError,
@@ -102,7 +105,21 @@ class JsonSessionStore:
             raise InvalidIdentifierError(f"invalid session id: {session_id!r}")
         return self.root / f"{session_id}.json"
 
-    def save(self, session: VerificationSession) -> Path:
+    def file_version(self, session_id: str) -> str | None:
+        """SHA-256 of the stored file, or None if it does not exist."""
+        path = self._path(session_id)
+        return hashlib.sha256(path.read_bytes()).hexdigest() if path.exists() else None
+
+    def save(self, session: VerificationSession, *, expected_version: str | None = None) -> Path:
+        """Validate and atomically write a session.
+
+        * ``expected_version`` (from :meth:`load_versioned`) makes the save fail with
+          :class:`SessionConflictError` if the file changed since it was read. This
+          prevents one process from silently overwriting another's work. The check
+          is best-effort: there is no OS-level file lock.
+        * Existing verification and evidence records are append-only: a save that
+          would modify or drop one raises :class:`AuditTrailError`.
+        """
         # Round-trip through validation so mutated-in-place models are re-checked.
         try:
             validated = VerificationSession.model_validate(session.model_dump())
@@ -111,9 +128,54 @@ class JsonSessionStore:
                 f"refusing to save invalid session: {summarize_validation_error(exc)}"
             ) from exc
         path = self._path(validated.session_id)
+        if expected_version is not None and self.file_version(validated.session_id) != (
+            expected_version
+        ):
+            raise SessionConflictError(
+                f"session {validated.session_id} was changed on disk after it was loaded; "
+                "reload it and repeat your last step"
+            )
+        if path.exists():
+            self._check_append_only(path, validated)
         write_json_atomic(path, validated)
         logger.info("saved session %s to %s", validated.session_id, path)
         return path
+
+    def save_versioned(
+        self, session: VerificationSession, *, expected_version: str | None = None
+    ) -> str:
+        """Like :meth:`save` but return the new file version for the next save."""
+        self.save(session, expected_version=expected_version)
+        version = self.file_version(session.session_id)
+        assert version is not None
+        return version
+
+    def load_versioned(self, session_id: str) -> tuple[VerificationSession, str]:
+        session = self.load(session_id)
+        version = self.file_version(session_id)
+        assert version is not None
+        return session, version
+
+    @staticmethod
+    def _check_append_only(path: Path, new: VerificationSession) -> None:
+        try:
+            old = load_session_file(path)
+        except StorageError as exc:
+            raise AuditTrailError(
+                f"cannot confirm the existing file's audit trail ({exc}); move the "
+                "unreadable file aside before saving"
+            ) from exc
+        for label, old_records, new_records, key in (
+            ("verification", old.verifications, new.verifications, "verification_id"),
+            ("evidence", old.evidence, new.evidence, "evidence_id"),
+        ):
+            current = {getattr(r, key): r for r in new_records}
+            for record in old_records:
+                rid = getattr(record, key)
+                if rid not in current:
+                    raise AuditTrailError(f"refusing to save: {label} {rid} would be removed")
+                if current[rid] != record:
+                    raise AuditTrailError(f"refusing to save: {label} {rid} would be modified")
 
     def load(self, session_id: str) -> VerificationSession:
         path = self._path(session_id)

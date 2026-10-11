@@ -44,17 +44,33 @@ Nothing is pushed, tagged, or released without explicit approval.
 - Decide the default `max_per_source` (3 vs 5); see the trade-off in docs/RETRIEVAL.md
 - Manual confirmation of the NASA fact sheet's licence status
 
-## Phase 4: Verification
+## ✅ Milestone 3: Human verification
 
-- Human verification API: record verdict, rationale, cited evidence IDs (evidence must
-  come from the session's retrieval candidates or be attached manually with provenance)
+- Methodology: `docs/HUMAN_VERIFICATION_GUIDE.md` (verdict criteria, insufficient vs
+  contradicted, rationale guidance, limitations)
+- Schema 1.2.0: `EvidenceAssessment`, verification `session_id`, revision chain fields,
+  noted limitations, `VerificationDraft` (all optional; 1.0/1.1 sessions load)
+- Interactive `hallab verify` with passage labels, verdict validation, rationale checks,
+  explicit save confirmation, drafts, pause and resume
+- Revisions via `--revise`, with cross-reviewer authorization and linear history
+- Source re-check before citing; append-only, conflict-safe storage
+- `verify status` and `verify summary [--json]`
+
+**Open follow-ups:**
+
+- Multi-reviewer workflows: independent double review, agreement statistics,
+  adjudication
+- Authenticated reviewer identity (currently self-declared)
+- Attaching manually found evidence (outside retrieval) with provenance
+
+## Phase 4: Automated baseline (deterministic suggestions only)
+
+- Numeric comparison between a claim and a curated reference record (with tolerance
+  and unit normalisation), and exact match against curated fact records
+- Output stored as `automated_rule` verifications: never counted as human verdicts,
+  always citing evidence, and anything uncertain returns `INSUFFICIENT_EVIDENCE`
 - Use `RetrievalRun` outcomes so "searched, nothing found" maps to
   `INSUFFICIENT_EVIDENCE`, never `CONTRADICTED`
-- Automated baseline for deterministic cases only:
-  - numeric comparison between a claim and a curated reference record (with tolerance
-    and unit normalisation)
-  - exact match against curated fact records
-  - anything else returns `INSUFFICIENT_EVIDENCE`, never a guess
 - Tests: missing evidence ≠ contradiction, numeric edge cases, human override
 
 ## Phase 5: Streamlit UI and reports

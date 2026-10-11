@@ -1,0 +1,369 @@
+{
+  "schema_version": "1.1.0",
+  "session_id": "ses_4544d4a85c5acfb2",
+  "title": "Milestone 2 compatibility fixture",
+  "created_at": "2026-02-01T09:00:00Z",
+  "updated_at": "2026-02-01T09:05:00Z",
+  "response": {
+    "response_id": "rsp_44d74f2e7081c089",
+    "text": "The Eiffel Tower was completed in 1899. Pi is approximately 3.14159.",
+    "provenance": "synthetic_fixture",
+    "model_name": null,
+    "prompt": null,
+    "collected_at": null,
+    "notes": null
+  },
+  "claims": [
+    {
+      "claim_id": "clm_85b3a5190fa262d2",
+      "original_text": "The Eiffel Tower was completed in 1899.",
+      "normalized_claim": "The Eiffel Tower was completed in 1899.",
+      "source_response_id": "rsp_44d74f2e7081c089",
+      "span": {
+        "start": 0,
+        "end": 39
+      },
+      "extraction_method": "rule_based",
+      "extractor_version": "rule_based-0.1.0",
+      "extraction_confidence": null,
+      "confidence_calibration": null,
+      "requires_verification": true,
+      "non_checkable_reason": null,
+      "temporal_context": "refers to: 1899",
+      "features": {
+        "numbers": [
+          "1899"
+        ],
+        "dates": [
+          "1899"
+        ],
+        "measurements": [],
+        "named_entities": [
+          "Eiffel Tower"
+        ],
+        "citations": [],
+        "quotations": [],
+        "temporal_markers": [],
+        "starts_with_pronoun": false
+      },
+      "extraction_notes": [
+        "no non-checkable rule matched"
+      ],
+      "reviewer_edits": [],
+      "is_active": true
+    },
+    {
+      "claim_id": "clm_7db7805e7f1fe4cd",
+      "original_text": "Pi is approximately 3.14159.",
+      "normalized_claim": "Pi is approximately 3.14159.",
+      "source_response_id": "rsp_44d74f2e7081c089",
+      "span": {
+        "start": 40,
+        "end": 68
+      },
+      "extraction_method": "rule_based",
+      "extractor_version": "rule_based-0.1.0",
+      "extraction_confidence": null,
+      "confidence_calibration": null,
+      "requires_verification": true,
+      "non_checkable_reason": null,
+      "temporal_context": null,
+      "features": {
+        "numbers": [
+          "3.14159"
+        ],
+        "dates": [],
+        "measurements": [],
+        "named_entities": [
+          "Pi"
+        ],
+        "citations": [],
+        "quotations": [],
+        "temporal_markers": [],
+        "starts_with_pronoun": false
+      },
+      "extraction_notes": [
+        "no non-checkable rule matched"
+      ],
+      "reviewer_edits": [],
+      "is_active": true
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "evd_27594a20360c5c91",
+      "claim_id": "clm_85b3a5190fa262d2",
+      "source_id": "src_b7d348f7c82bc97d",
+      "source_title": "Eiffel Tower (Wikipedia)",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=Eiffel_Tower&oldid=1376706466",
+      "document_reference": "demo/wikipedia_eiffel_tower.txt#L168-L168",
+      "retrieved_at": "2026-02-01T09:01:00Z",
+      "quoted_passage": "The Eiffel Tower was the world's tallest structure when completed in 1889, a distinction it retained until 1929 when the Chrysler Building in New York City was topped out. The tower also lost its standing as the world's tallest tower to the Tokyo Tower in 1958 but retains its status as the tallest freestanding (non-guyed) structure in France.",
+      "passage_location": {
+        "char_start": 37845,
+        "char_end": 38189,
+        "paragraph_index": null,
+        "line_start": 168,
+        "line_end": 168,
+        "section": "Taller structures"
+      },
+      "document_version": "revision 1376706466 (2026-09-25T19:49:48Z)",
+      "publication_date": null,
+      "retrieval_method": "bm25",
+      "retrieval_rank": 1,
+      "retrieval_score": 11.770611,
+      "retrieval_parameters": {
+        "retrieval_method": "bm25",
+        "k1": 1.5,
+        "b": 0.75,
+        "top_k": 2,
+        "max_per_source": 3,
+        "min_score": 0.0,
+        "tokenizer_version": "lexical-1",
+        "chunk_max_chars": 800,
+        "chunk_overlap_sentences": 1,
+        "collection_name": "demo",
+        "collection_fingerprint": "506b16aa3a1191bfa1928b925aec79f1d79724594f5ff5286c28ca7dcb459432"
+      },
+      "passage_id": "psg_333029c0e3682fdc",
+      "passage_sha256": "42759f634e0b62fb7b7749fc96952ebf780a611187857601d09d4a3f08a601eb",
+      "collection_name": "demo",
+      "source_content_sha256": "5a23eb4c34fc4a6f79b85d3148f03de310380951cfe39d94d0eecf8cce027a3f",
+      "source_origin": "packaged_demo",
+      "retrieval_run_id": "run_be0c0a83ccbf76d8",
+      "matched_terms": [
+        "completed",
+        "tower",
+        "eiffel"
+      ]
+    },
+    {
+      "evidence_id": "evd_24a318359d4b391e",
+      "claim_id": "clm_85b3a5190fa262d2",
+      "source_id": "src_b7d348f7c82bc97d",
+      "source_title": "Eiffel Tower (Wikipedia)",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=Eiffel_Tower&oldid=1376706466",
+      "document_reference": "demo/wikipedia_eiffel_tower.txt#L88-L89",
+      "retrieved_at": "2026-02-01T09:01:00Z",
+      "quoted_passage": "After it was completed, some have put forward various mathematical hypotheses in an attempt to explain the success of the design. A one devised in 2004 after letters sent by Eiffel to the French Society of Civil Engineers in 1885 were translated into English described it as a non-linear integral equation based on counteracting the wind pressure on any point of the tower with the tension between the construction elements at that point.\nThe Eiffel Tower sways by up to 9 cm (3+1⁄2 in) in the wind.",
+      "passage_location": {
+        "char_start": 28073,
+        "char_end": 28572,
+        "paragraph_index": null,
+        "line_start": 88,
+        "line_end": 89,
+        "section": "Design > Wind and weather considerations"
+      },
+      "document_version": "revision 1376706466 (2026-09-25T19:49:48Z)",
+      "publication_date": null,
+      "retrieval_method": "bm25",
+      "retrieval_rank": 2,
+      "retrieval_score": 11.104585,
+      "retrieval_parameters": {
+        "retrieval_method": "bm25",
+        "k1": 1.5,
+        "b": 0.75,
+        "top_k": 2,
+        "max_per_source": 3,
+        "min_score": 0.0,
+        "tokenizer_version": "lexical-1",
+        "chunk_max_chars": 800,
+        "chunk_overlap_sentences": 1,
+        "collection_name": "demo",
+        "collection_fingerprint": "506b16aa3a1191bfa1928b925aec79f1d79724594f5ff5286c28ca7dcb459432"
+      },
+      "passage_id": "psg_92192578f30f2bd1",
+      "passage_sha256": "10807cbcfeb8aeb803303d97e642587923907805ce2757af25bc27d1ca72e5af",
+      "collection_name": "demo",
+      "source_content_sha256": "5a23eb4c34fc4a6f79b85d3148f03de310380951cfe39d94d0eecf8cce027a3f",
+      "source_origin": "packaged_demo",
+      "retrieval_run_id": "run_be0c0a83ccbf76d8",
+      "matched_terms": [
+        "completed",
+        "eiffel",
+        "tower"
+      ]
+    },
+    {
+      "evidence_id": "evd_e635c97a8d068ad2",
+      "claim_id": "clm_7db7805e7f1fe4cd",
+      "source_id": "src_e489de1ca68361a3",
+      "source_title": "Pi (Wikipedia)",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=Pi&oldid=1377733505",
+      "document_reference": "demo/wikipedia_pi.txt#L1-L2",
+      "retrieved_at": "2026-02-01T09:01:00Z",
+      "quoted_passage": "The number π ( ; spelled out as pi) is a mathematical constant, approximately equal to 3.14159, that is the ratio of a circle's circumference to its diameter. It appears in many formulae across mathematics and physics, and some of these formulae are commonly used for defining π, to avoid relying on the definition of the length of a curve.\nThe number π is an irrational number, meaning that it cannot be expressed exactly as a ratio of two integers, although fractions such as ⁠22/7⁠ are commonly used to approximate it. Consequently, its decimal representation never ends, nor does it enter a permanently repeating pattern. It is a transcendental number, meaning that it cannot be a solution of an algebraic equation involving only finite sums, products, powers, and integers.",
+      "passage_location": {
+        "char_start": 0,
+        "char_end": 778,
+        "paragraph_index": null,
+        "line_start": 1,
+        "line_end": 2,
+        "section": null
+      },
+      "document_version": "revision 1377733505 (2026-09-30T21:27:08Z)",
+      "publication_date": null,
+      "retrieval_method": "bm25",
+      "retrieval_rank": 1,
+      "retrieval_score": 12.416354,
+      "retrieval_parameters": {
+        "retrieval_method": "bm25",
+        "k1": 1.5,
+        "b": 0.75,
+        "top_k": 2,
+        "max_per_source": 3,
+        "min_score": 0.0,
+        "tokenizer_version": "lexical-1",
+        "chunk_max_chars": 800,
+        "chunk_overlap_sentences": 1,
+        "collection_name": "demo",
+        "collection_fingerprint": "506b16aa3a1191bfa1928b925aec79f1d79724594f5ff5286c28ca7dcb459432"
+      },
+      "passage_id": "psg_d9e8d8da069e0da1",
+      "passage_sha256": "a158dc24b621fa44dbd87fd9a19cf1b9a3fd1d98e1726af9455ecc940d54c54b",
+      "collection_name": "demo",
+      "source_content_sha256": "9f45162e0f6db4f0f2c036ba526235574d49761acf366d6956ad09d5d1656585",
+      "source_origin": "packaged_demo",
+      "retrieval_run_id": "run_be0c0a83ccbf76d8",
+      "matched_terms": [
+        "3.14159",
+        "approximately",
+        "pi",
+        "3"
+      ]
+    },
+    {
+      "evidence_id": "evd_7fe2bdda5987ca76",
+      "claim_id": "clm_7db7805e7f1fe4cd",
+      "source_id": "src_e489de1ca68361a3",
+      "source_title": "Pi (Wikipedia)",
+      "source_url": "https://en.wikipedia.org/w/index.php?title=Pi&oldid=1377733505",
+      "document_reference": "demo/wikipedia_pi.txt#L4166-L4167",
+      "retrieved_at": "2026-02-01T09:01:00Z",
+      "quoted_passage": "This part of the story was omitted from the film adaptation of the novel. In the 1967 Star Trek episode \"Wolf in the Fold\", a computer possessed by a demonic entity is contained by being instructed to \"Compute to the last digit the value of π\".\nIn the United States, Pi Day falls on 14 March (written 3/14 in the US date format), and is popular among students. π and its digital representation are often used by self-described \"math geeks\" for inside jokes among mathematically and technologically minded groups. A college cheer variously attributed to the Massachusetts Institute of Technology or the Rensselaer Polytechnic Institute includes \"3.14159\". Pi Day in 2015 was particularly significant because the date and time 3/14/15 9:26:53 reflected many more digits of pi.",
+      "passage_location": {
+        "char_start": 111409,
+        "char_end": 112183,
+        "paragraph_index": null,
+        "line_start": 4166,
+        "line_end": 4167,
+        "section": "Outside mathematics > In popular culture"
+      },
+      "document_version": "revision 1377733505 (2026-09-30T21:27:08Z)",
+      "publication_date": null,
+      "retrieval_method": "bm25",
+      "retrieval_rank": 2,
+      "retrieval_score": 10.801466,
+      "retrieval_parameters": {
+        "retrieval_method": "bm25",
+        "k1": 1.5,
+        "b": 0.75,
+        "top_k": 2,
+        "max_per_source": 3,
+        "min_score": 0.0,
+        "tokenizer_version": "lexical-1",
+        "chunk_max_chars": 800,
+        "chunk_overlap_sentences": 1,
+        "collection_name": "demo",
+        "collection_fingerprint": "506b16aa3a1191bfa1928b925aec79f1d79724594f5ff5286c28ca7dcb459432"
+      },
+      "passage_id": "psg_003a4d3da76dd7b5",
+      "passage_sha256": "8e60e41e1c32db8be4fcc656d486159bbf0a08f41c0e932cb96400f537d664b6",
+      "collection_name": "demo",
+      "source_content_sha256": "9f45162e0f6db4f0f2c036ba526235574d49761acf366d6956ad09d5d1656585",
+      "source_origin": "packaged_demo",
+      "retrieval_run_id": "run_be0c0a83ccbf76d8",
+      "matched_terms": [
+        "3.14159",
+        "pi",
+        "3"
+      ]
+    }
+  ],
+  "verifications": [
+    {
+      "verification_id": "ver_72b495492946228e",
+      "claim_id": "clm_85b3a5190fa262d2",
+      "verdict": "CONTRADICTED",
+      "reasoning": "Passage says the tower was built from 1887 to 1889, not completed in 1899.",
+      "supporting_evidence_ids": [],
+      "contradicting_evidence_ids": [
+        "evd_27594a20360c5c91"
+      ],
+      "verification_method": "human",
+      "reviewer_id": "reviewer-legacy",
+      "verification_timestamp": "2026-02-01T09:05:00Z",
+      "provenance": {
+        "tool": "hallucination_lab",
+        "tool_version": "0.1.0.dev0",
+        "method_detail": "manual review",
+        "model_name": null,
+        "parameters": {}
+      }
+    }
+  ],
+  "retrieval_runs": [
+    {
+      "run_id": "run_be0c0a83ccbf76d8",
+      "collection_name": "demo",
+      "collection_fingerprint": "506b16aa3a1191bfa1928b925aec79f1d79724594f5ff5286c28ca7dcb459432",
+      "retrieval_method": "bm25",
+      "parameters": {
+        "retrieval_method": "bm25",
+        "k1": 1.5,
+        "b": 0.75,
+        "top_k": 2,
+        "max_per_source": 3,
+        "min_score": 0.0,
+        "tokenizer_version": "lexical-1",
+        "chunk_max_chars": 800,
+        "chunk_overlap_sentences": 1,
+        "collection_name": "demo",
+        "collection_fingerprint": "506b16aa3a1191bfa1928b925aec79f1d79724594f5ff5286c28ca7dcb459432"
+      },
+      "started_at": "2026-02-01T09:01:00Z",
+      "tool_version": "0.1.0.dev0",
+      "results": [
+        {
+          "claim_id": "clm_85b3a5190fa262d2",
+          "query_text": "The Eiffel Tower was completed in 1899.",
+          "query_terms": [
+            "eiffel",
+            "tower",
+            "completed",
+            "1899"
+          ],
+          "outcome": "candidates_found",
+          "evidence_ids": [
+            "evd_27594a20360c5c91",
+            "evd_24a318359d4b391e"
+          ],
+          "scores": [
+            11.770611,
+            11.104585
+          ]
+        },
+        {
+          "claim_id": "clm_7db7805e7f1fe4cd",
+          "query_text": "Pi is approximately 3.14159.",
+          "query_terms": [
+            "pi",
+            "approximately",
+            "3.14159",
+            "3"
+          ],
+          "outcome": "candidates_found",
+          "evidence_ids": [
+            "evd_e635c97a8d068ad2",
+            "evd_7fe2bdda5987ca76"
+          ],
+          "scores": [
+            12.416354,
+            10.801466
+          ]
+        }
+      ]
+    }
+  ],
+  "notes": null
+}

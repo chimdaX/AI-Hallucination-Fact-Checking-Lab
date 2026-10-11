@@ -6,7 +6,8 @@ Commands:
   hallab sessions list
   hallab sessions show SESSION_ID
 
-Retrieval commands (sources, index, search, retrieve, eval) live in cli_retrieval.py.
+Retrieval commands (sources, index, search, retrieve, eval) live in cli_retrieval.py;
+human verification commands (verify, verify status, verify summary) in cli_verify.py.
 """
 
 from __future__ import annotations
@@ -18,7 +19,7 @@ from pathlib import Path
 
 from pydantic import ValidationError
 
-from hallucination_lab import __version__, cli_retrieval
+from hallucination_lab import __version__, cli_retrieval, cli_verify
 from hallucination_lab.config import Settings
 from hallucination_lab.errors import HallucinationLabError
 from hallucination_lab.examples import load_examples
@@ -64,7 +65,12 @@ def _print_claims(claims: list[Claim], as_json: bool) -> None:
 
 def cmd_extract(args: argparse.Namespace) -> int:
     text = Path(args.file).read_text(encoding="utf-8") if args.file else args.text
-    response = AIResponse.from_text(text, ResponseProvenance.USER_SUBMITTED)
+    provenance = (
+        ResponseProvenance.SYNTHETIC_FIXTURE
+        if args.synthetic
+        else ResponseProvenance.USER_SUBMITTED
+    )
+    response = AIResponse.from_text(text, provenance)
     session = new_session(response)
     _print_claims(session.claims, args.json)
     if args.save:
@@ -128,6 +134,11 @@ def build_parser() -> argparse.ArgumentParser:
     src.add_argument("--file", help="path to a UTF-8 text file")
     p_extract.add_argument("--json", action="store_true", help="print claims as JSON")
     p_extract.add_argument("--save", action="store_true", help="save as a new session")
+    p_extract.add_argument(
+        "--synthetic",
+        action="store_true",
+        help="label the text as an illustrative synthetic fixture (not a real model output)",
+    )
     p_extract.set_defaults(func=cmd_extract)
 
     p_demo = sub.add_parser("demo", help="run extraction on the bundled synthetic fixtures")
@@ -142,6 +153,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_sessions.set_defaults(func=cmd_sessions)
 
     cli_retrieval.register(sub)
+    cli_verify.register(sub)
     return parser
 
 
