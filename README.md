@@ -11,10 +11,11 @@ The tool does not decide what is true on its own authority. Every verdict must c
 evidence and record how it was produced. Human judgments and automated suggestions are
 kept apart at the schema level.
 
-> **Status: pre-alpha (milestone 1 of 8).** The data model, persistence, and a rule-based
-> claim-extraction prototype work and are tested. Evidence retrieval, verification, the
-> Streamlit UI, reports, and the benchmark have **not been built yet**. See
-> [What works today](#what-works-today) and the [roadmap](docs/ROADMAP.md).
+> **Status: pre-alpha (milestone 2 of 8).** Claim extraction, offline reference
+> collections, and BM25 evidence retrieval work and are tested. **Verdicts are not
+> produced yet.** Human verification, the Streamlit UI, reports, and the verdict
+> benchmark have **not been built yet**. See [What works today](#what-works-today) and
+> the [roadmap](docs/ROADMAP.md).
 
 ---
 
@@ -39,8 +40,13 @@ claims instead of whole responses.
 | Detection of numbers, dates, measurements, entities, citations, quotes, time-sensitive wording | ✅ prototype (heuristic), tested | `extraction/features.py` |
 | Manual claim edit / split / merge / add / remove / restore with audit trail | ✅ implemented, tested | `extraction/editing.py` |
 | Synthetic example responses (clearly labelled, not real model outputs) | ✅ 6 fixtures | `data/examples/` |
-| Command-line interface (`hallab`) | ✅ implemented, tested | `cli.py` |
-| Evidence retrieval (BM25) | ⏳ Phase 3 | — |
+| Command-line interface (`hallab`) | ✅ implemented, tested | `cli.py`, `cli_retrieval.py` |
+| Reference collections with declared vs computed source metadata | ✅ implemented, tested | `retrieval/models.py`, `retrieval/catalog.py` |
+| Ingestion of `.txt`/`.md` (validation, duplicate and modification detection, passages with offsets, lines, and sections) | ✅ implemented, tested | `retrieval/ingest.py` |
+| BM25 retrieval (direct implementation, per-term score explanation, de-duplication) | ✅ implemented, tested | `retrieval/bm25.py`, `retrieval/search.py` |
+| Retrieval results saved to sessions with full provenance (schema 1.1.0, 1.0.0 still loads) | ✅ implemented, tested | `retrieval/session_retrieval.py`, `migrations.py` |
+| Offline demo collection: 10 real source texts (Wikipedia/Wikiquote CC BY-SA, NASA) | ✅ packaged | `data/references/demo/` |
+| Retrieval evaluation (Recall@k, Precision@k, MRR) on 24 labelled queries | ✅ implemented | `retrieval/evaluation.py`, `data/evaluation/` |
 | Automated baseline verification and human verification flow | ⏳ Phase 4 | — |
 | Streamlit interface | ⏳ Phase 5 | — |
 | Reports (JSON / CSV / Markdown) | ⏳ Phase 5 | — |
@@ -68,6 +74,10 @@ saved. Each one has a test.
   tracks the difference.
 - Removed, split, and merged claims are deactivated, never deleted. Every change is
   logged in `reviewer_edits`.
+- Retrieved passages store their SHA-256. A session whose quoted passage was edited
+  fails to load.
+- Reference documents are content-addressed. A changed or missing document blocks
+  indexing and search until it is restored or deliberately re-registered.
 
 ## Quick start
 
@@ -103,6 +113,48 @@ hallab demo --save
 hallab sessions list
 hallab sessions show <session_id>
 ```
+
+### Complete offline example: claim → evidence candidates → saved session
+
+```bash
+# 1. Look at the packaged reference collection (10 documents, no network needed)
+hallab sources list --collection demo
+
+# 2. Search one claim (the index is built automatically on first use)
+hallab search --collection demo --top-k 2 --claim "Mount Everest has an elevation of about 9,848 metres."
+
+# 3. Extract claims from a response and save a session
+hallab extract --save --text "The Eiffel Tower was completed in 1899 for the World's Fair in Paris. A leap year has 365 days."
+
+# 4. Retrieve candidates for every checkable claim in that session, then inspect it
+hallab retrieve --session <session_id printed in step 3> --collection demo --top-k 2
+hallab sessions show <session_id>
+
+# 5. Measure retrieval quality on the labelled query set
+hallab eval retrieval
+```
+
+Excerpt of step 2's output:
+
+```
+RETRIEVAL CANDIDATES: passages that share words with the claim. They are NOT verified
+evidence and may support, contradict, or be irrelevant to the claim. BM25 scores measure
+lexical overlap only; they are not probabilities, confidence, or truth estimates.
+
+Claim:       Mount Everest has an elevation of about 9,848 metres.
+Query terms: mount, everest, elevation, 9848, metre
+Note:        terms not found anywhere in the collection: 9848
+
+  [1] BM25 score 13.338   matched terms: elevation, mount, everest, metre
+      Source:   Mount Everest (Wikipedia)  (packaged_demo; metadata captured_at_download)
+      URL:      https://en.wikipedia.org/w/index.php?title=Mount_Everest&oldid=1376942985
+      Location: wikipedia_mount_everest.txt lines 3-4
+      Passage:  psg_62832ca3b3fee844   source: src_c86df31b4d4f351e
+```
+
+The note that `9848` appears nowhere in the collection is a cue for the reviewer. It is
+not proof of a hallucination. Adding your own documents is covered in
+[docs/RETRIEVAL.md](docs/RETRIEVAL.md#using-it).
 
 Sessions are saved as JSON under `./lab_data/sessions/`. Set `HALLAB_DATA_DIR` to change
 the location and `HALLAB_LOG_LEVEL=INFO` for more logging.
@@ -185,23 +237,58 @@ src/hallucination_lab/
     features.py      numbers/dates/entities/citations/... detection
     extractor.py     pipeline producing candidate Claim records
     editing.py       human edit/split/merge/add/remove operations
-data/examples/       synthetic fixtures (hand-written, labelled as such)
+  retrieval/
+    models.py        source metadata, documents, passages, collections
+    ingest.py        loading, validation, canonical text, passage segmentation
+    tokenizer.py     lexical tokenizer (numbers, units, dates)
+    bm25.py          Okapi BM25 with per-term contributions
+    search.py        top-k search, de-duplication, per-source cap
+    catalog.py       collections on disk, integrity checks, index lifecycle
+    session_retrieval.py  attach candidates to sessions (no verdicts)
+    evaluation.py    Recall@k / Precision@k / MRR
+  migrations.py      versioned session-schema migrations
+  cli_retrieval.py   sources / index / search / retrieve / eval commands
+data/examples/       synthetic response fixtures (hand-written, labelled as such)
+data/references/demo/  packaged reference collection + CONTENT_LICENSE.md
+data/evaluation/     labelled retrieval queries
 scripts/             dataset build scripts
-tests/               pytest suite
-docs/                architecture notes and roadmap
+tests/               pytest suite (fixtures/ includes a real schema-1.0.0 session)
+docs/                architecture, retrieval guide, roadmap
 ```
 
 More detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) ·
-[docs/ROADMAP.md](docs/ROADMAP.md)
+[docs/RETRIEVAL.md](docs/RETRIEVAL.md) · [docs/ROADMAP.md](docs/ROADMAP.md)
+
+## Retrieval is not verification
+
+BM25 finds passages that **share words** with a claim. A top-ranked passage may
+contradict the claim (the Eiffel Tower "1899" claim retrieves a passage saying it was
+built 1887–1889), and "no candidates" only means no word overlap. On the labelled
+evaluation set (19 positive and 5 negative queries), BM25 returned candidates for every
+negative query. The highest negative score (12.7) was above some correct hits, so **no
+score threshold distinguishes "evidence exists" from "nothing relevant exists"**. Scores
+are never converted into confidence or hallucination probabilities.
+
+Retrieval results: Recall@5 0.789, MRR 0.728. These describe passage retrieval only;
+see [docs/RETRIEVAL.md](docs/RETRIEVAL.md#retrieval-evaluation) for how the labels were
+made, the failure cases, and limitations.
 
 ## Data and content policy
 
 - `data/examples/synthetic_responses.json` contains **hand-written fixtures**. None of
   them were produced by an AI model. Some contain deliberate errors. Their
   `author_notes` describe intent and are **not** verified ground-truth labels.
-- Reference documents (Phase 3) will be original or openly licensed. Each will be
-  recorded with its licence. No copyrighted articles and no private data.
+- `data/references/demo/` contains real source texts: Wikipedia/Wikiquote plain-text
+  extracts pinned to exact revision IDs (**CC BY-SA 4.0**, not MIT) and a NASA fact
+  sheet (U.S. Government work; licence status to be confirmed). Attribution and the
+  changes made are in [CONTENT_LICENSE.md](data/references/demo/CONTENT_LICENSE.md).
+  `scripts/build_demo_collection.py` documents exactly how they were captured.
+- Wikipedia is a tertiary source. Demo documents are reference material for retrieval,
+  not ground truth.
+- Tests use invented text about a fictional place ("Lake Verenna"), clearly labelled as
+  a synthetic test fixture.
 
 ## Licence
 
-MIT. See [LICENSE](LICENSE).
+Code: MIT. See [LICENSE](LICENSE). Packaged reference documents keep their own licences
+(see above).

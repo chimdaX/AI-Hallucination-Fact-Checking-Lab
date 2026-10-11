@@ -75,3 +75,77 @@ def make_verification(
         verification_timestamp=timestamp,
         provenance=Provenance(method_detail="manual review of retrieved passage"),
     )
+
+
+# ------------------------------------------------------------------ retrieval fixtures
+# Invented text about a fictional place, used only to test software behaviour.
+
+LAKE_DOC = """# Lake Verenna (synthetic test fixture)
+
+This document is invented for software tests and describes a fictional place.
+
+## Geography
+
+Lake Verenna lies in the fictional province of Osterland. The lake has a surface area of
+1,250 square kilometres and a maximum depth of 312 m.
+
+The town of Brindle sits on its northern shore.
+
+## History
+
+The first bridge across the lake was completed in 1874. It was designed by the engineer
+Mara Quill. A second bridge opened on 3 May 1921.
+"""
+
+RAILWAY_DOC = """== Osterland Railway (synthetic test fixture) ==
+This document is invented for software tests.
+The Osterland Railway opened in 1902 and is 48 km long.
+Its main station is in Brindle, near the northern shore of Lake Verenna.
+"""
+
+
+@pytest.fixture
+def synthetic_files(tmp_path):
+    folder = tmp_path / "incoming"
+    folder.mkdir()
+    lake = folder / "lake_verenna.md"
+    lake.write_text(LAKE_DOC, encoding="utf-8")
+    railway = folder / "osterland_railway.txt"
+    railway.write_text(RAILWAY_DOC, encoding="utf-8")
+    return {"lake": lake, "railway": railway, "dir": folder}
+
+
+@pytest.fixture
+def settings(tmp_path):
+    from hallucination_lab.config import Settings
+
+    return Settings(data_dir=tmp_path / "lab")
+
+
+@pytest.fixture
+def catalog(settings):
+    from hallucination_lab.retrieval.catalog import CollectionCatalog
+
+    return CollectionCatalog(settings)
+
+
+def synthetic_metadata(title: str):
+    from hallucination_lab.retrieval.models import DocumentType, SourceMetadata
+
+    return SourceMetadata(
+        title=title, document_type=DocumentType.SYNTHETIC_FIXTURE, notes="synthetic test fixture"
+    )
+
+
+@pytest.fixture
+def test_collection(catalog, synthetic_files):
+    catalog.add_document("testrefs", synthetic_files["lake"], synthetic_metadata("Lake Verenna"))
+    catalog.add_document(
+        "testrefs", synthetic_files["railway"], synthetic_metadata("Osterland Railway")
+    )
+    return "testrefs"
+
+
+@pytest.fixture
+def searcher(catalog, test_collection):
+    return catalog.searcher(test_collection)[0]

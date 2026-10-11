@@ -5,6 +5,8 @@ Commands:
   hallab demo [--save]
   hallab sessions list
   hallab sessions show SESSION_ID
+
+Retrieval commands (sources, index, search, retrieve, eval) live in cli_retrieval.py.
 """
 
 from __future__ import annotations
@@ -14,14 +16,16 @@ import json
 import sys
 from pathlib import Path
 
-from hallucination_lab import __version__
+from pydantic import ValidationError
+
+from hallucination_lab import __version__, cli_retrieval
 from hallucination_lab.config import Settings
 from hallucination_lab.errors import HallucinationLabError
 from hallucination_lab.examples import load_examples
 from hallucination_lab.logging_utils import configure_logging
 from hallucination_lab.models import AIResponse, Claim, ResponseProvenance
 from hallucination_lab.sessions import new_session
-from hallucination_lab.storage import JsonSessionStore
+from hallucination_lab.storage import JsonSessionStore, summarize_validation_error
 
 
 def _format_claim(n: int, claim: Claim) -> str:
@@ -104,6 +108,9 @@ def cmd_sessions(args: argparse.Namespace) -> int:
         f"({session.response.provenance.value})\n"
     )
     _print_claims(session.active_claims, as_json=False)
+    if session.retrieval_runs:
+        print(f"\n{cli_retrieval.RETRIEVAL_BANNER}\n")
+        cli_retrieval._print_session_evidence(session)
     return 0
 
 
@@ -133,6 +140,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_show = s_sub.add_parser("show")
     p_show.add_argument("session_id")
     p_sessions.set_defaults(func=cmd_sessions)
+
+    cli_retrieval.register(sub)
     return parser
 
 
@@ -143,6 +152,9 @@ def main(argv: list[str] | None = None) -> int:
         return args.func(args)
     except HallucinationLabError as exc:
         print(f"error: {exc}", file=sys.stderr)
+        return 2
+    except ValidationError as exc:
+        print(f"error: invalid input: {summarize_validation_error(exc)}", file=sys.stderr)
         return 2
     except (OSError, ValueError) as exc:
         print(f"error: {exc}", file=sys.stderr)

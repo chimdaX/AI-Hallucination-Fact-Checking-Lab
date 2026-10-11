@@ -23,6 +23,9 @@ SOURCE = "src"
 EVIDENCE = "evd"
 VERIFICATION = "ver"
 SESSION = "ses"
+PASSAGE = "psg"
+RETRIEVAL_RUN = "run"
+COLLECTION = "col"
 
 
 def content_sha256(text: str) -> str:

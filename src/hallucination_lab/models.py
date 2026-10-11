@@ -33,9 +33,12 @@ from pydantic import (
 )
 
 from hallucination_lab import __version__
-from hallucination_lab.ids import ID_PATTERN, response_id_for
+from hallucination_lab.ids import ID_PATTERN, content_sha256, response_id_for
 
-SCHEMA_VERSION = "1.0.0"
+# 1.1.0 (Milestone 2): optional retrieval provenance fields on Evidence and
+# PassageLocation, plus VerificationSession.retrieval_runs. 1.0.x files load
+# unchanged (see migrations.py).
+SCHEMA_VERSION = "1.1.0"
 SUPPORTED_SCHEMA_MAJOR = 1
 
 Identifier = Annotated[str, StringConstraints(pattern=ID_PATTERN)]
@@ -65,6 +68,7 @@ def _check_url(value: str | None) -> str | None:
 
 
 OptionalUrl = Annotated[str | None, AfterValidator(_check_url)]
+Sha256Hex = Annotated[str, StringConstraints(pattern=r"^[0-9a-f]{64}$")]
 
 
 class StrictModel(BaseModel):
@@ -110,6 +114,23 @@ class EditType(str, Enum):
     REMOVED = "removed"
     RESTORED = "restored"
     VERIFICATION_FLAG_CHANGED = "verification_flag_changed"
+
+
+class SourceOrigin(str, Enum):
+    """Who put a reference document into a collection."""
+
+    PACKAGED_DEMO = "packaged_demo"  # shipped with this repository
+    USER_ADDED = "user_added"  # added by a user with `hallab sources add`
+    SYNTHETIC_TEST_FIXTURE = "synthetic_test_fixture"  # invented text for software tests
+
+
+class RetrievalOutcome(str, Enum):
+    """What happened when a claim was searched. Distinguishes "searched, nothing found"
+    from "never searched", which matters for INSUFFICIENT_EVIDENCE decisions later."""
+
+    CANDIDATES_FOUND = "candidates_found"
+    NO_CANDIDATES = "no_candidates"
+    NO_SEARCHABLE_TERMS = "no_searchable_terms"
 
 
 class RetrievalMethod(str, Enum):
@@ -266,7 +287,7 @@ class Source(StrictModel):
     publication_date: date | None = None
     document_version: str | None = None
     license: str | None = None
-    content_sha256: Annotated[str, StringConstraints(pattern=r"^[0-9a-f]{64}$")] | None = None
+    content_sha256: Sha256Hex | None = None
     ingested_at: AwareDatetime | None = None
 
     @model_validator(mode="after")
@@ -282,11 +303,17 @@ class PassageLocation(StrictModel):
     char_start: int = Field(ge=0)
     char_end: int = Field(gt=0)
     paragraph_index: int | None = Field(default=None, ge=0)
+    # 1-based line numbers in the stored document (schema 1.1+).
+    line_start: int | None = Field(default=None, ge=1)
+    line_end: int | None = Field(default=None, ge=1)
+    section: str | None = None
 
     @model_validator(mode="after")
     def _ordered(self) -> PassageLocation:
         if self.char_end <= self.char_start:
             raise ValueError("char_end must be greater than char_start")
+        if self.line_start and self.line_end and self.line_end < self.line_start:
+            raise ValueError("line_end must not be before line_start")
         return self
 
 
@@ -314,12 +341,60 @@ class Evidence(StrictModel):
     # Raw ranking score (e.g. BM25). Not a probability and not a truth estimate.
     retrieval_score: float | None = None
     retrieval_parameters: dict[str, ScalarValue] = Field(default_factory=dict)
+    # --- schema 1.1+: retrieval provenance (all optional for backward compatibility)
+    passage_id: Identifier | None = None
+    # SHA-256 of quoted_passage at retrieval time; any later edit fails validation.
+    passage_sha256: Sha256Hex | None = None
+    collection_name: str | None = None
+    source_content_sha256: Sha256Hex | None = None
+    source_origin: SourceOrigin | None = None
+    retrieval_run_id: Identifier | None = None
+    # Query terms that matched this passage (explains the lexical score).
+    matched_terms: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def _locatable(self) -> Evidence:
         if not self.source_url and not self.document_reference:
             raise ValueError("evidence needs a source_url or document_reference for attribution")
+        if self.passage_sha256 and content_sha256(self.quoted_passage) != self.passage_sha256:
+            raise ValueError(
+                f"evidence {self.evidence_id}: quoted_passage no longer matches passage_sha256; "
+                "retrieved passages must not be edited"
+            )
         return self
+
+
+class ClaimRetrievalResult(StrictModel):
+    """Outcome of searching one claim within a retrieval run."""
+
+    claim_id: Identifier
+    query_text: NonBlankStr
+    query_terms: list[str] = Field(default_factory=list)
+    outcome: RetrievalOutcome
+    # Ranked best-first; may reference evidence first stored by an earlier run.
+    evidence_ids: list[Identifier] = Field(default_factory=list)
+    scores: list[float] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _consistent(self) -> ClaimRetrievalResult:
+        if len(self.scores) != len(self.evidence_ids):
+            raise ValueError("scores and evidence_ids must have the same length")
+        if (self.outcome is RetrievalOutcome.CANDIDATES_FOUND) != bool(self.evidence_ids):
+            raise ValueError("outcome candidates_found must coincide with non-empty evidence_ids")
+        return self
+
+
+class RetrievalRun(StrictModel):
+    """One execution of retrieval over a session's claims, recorded for reproducibility."""
+
+    run_id: Identifier
+    collection_name: NonBlankStr
+    collection_fingerprint: Sha256Hex
+    retrieval_method: RetrievalMethod
+    parameters: dict[str, ScalarValue] = Field(default_factory=dict)
+    started_at: AwareDatetime
+    tool_version: str = __version__
+    results: list[ClaimRetrievalResult] = Field(default_factory=list)
 
 
 # --------------------------------------------------------------------- verification
@@ -386,6 +461,12 @@ def _check_schema_version(value: str) -> str:
             f"unsupported schema major version {match.group(1)} "
             f"(this build reads {SUPPORTED_SCHEMA_MAJOR}.x)"
         )
+    current_minor = int(SCHEMA_VERSION.split(".")[1])
+    if int(match.group(2)) > current_minor:
+        raise ValueError(
+            f"schema_version {value} was written by a newer version of this tool "
+            f"(this build reads up to {SCHEMA_VERSION}); please upgrade"
+        )
     return value
 
 
@@ -401,6 +482,7 @@ class VerificationSession(StrictModel):
     claims: list[Claim] = Field(default_factory=list)
     evidence: list[Evidence] = Field(default_factory=list)
     verifications: list[Verification] = Field(default_factory=list)
+    retrieval_runs: list[RetrievalRun] = Field(default_factory=list)
     notes: str | None = None
 
     @model_validator(mode="after")
@@ -437,9 +519,30 @@ class VerificationSession(StrictModel):
                         f"verification {ver.verification_id} cites evidence {eid} "
                         "that was retrieved for a different claim"
                     )
+        self._check_retrieval_runs(claim_ids, evidence_claim)
         if self.updated_at < self.created_at:
             raise ValueError("updated_at cannot be earlier than created_at")
         return self
+
+    def _check_retrieval_runs(self, claim_ids: set[str], evidence_claim: dict[str, str]) -> None:
+        _require_unique("run_id", [r.run_id for r in self.retrieval_runs])
+        run_ids = {r.run_id for r in self.retrieval_runs}
+        for ev in self.evidence:
+            if ev.retrieval_run_id and ev.retrieval_run_id not in run_ids:
+                raise ValueError(
+                    f"evidence {ev.evidence_id} references unknown retrieval run "
+                    f"{ev.retrieval_run_id}"
+                )
+        for run in self.retrieval_runs:
+            for result in run.results:
+                if result.claim_id not in claim_ids:
+                    raise ValueError(f"run {run.run_id} references unknown claim {result.claim_id}")
+                for eid in result.evidence_ids:
+                    if evidence_claim.get(eid) != result.claim_id:
+                        raise ValueError(
+                            f"run {run.run_id} lists evidence {eid} that is missing or "
+                            f"belongs to a different claim than {result.claim_id}"
+                        )
 
     # --- read helpers -------------------------------------------------------------
 
@@ -483,6 +586,15 @@ class VerificationSession(StrictModel):
                 cited.update(v.supporting_evidence_ids)
                 cited.update(v.contradicting_evidence_ids)
         return cited
+
+    def latest_retrieval(self, claim_id: str) -> ClaimRetrievalResult | None:
+        """Most recent retrieval result for a claim, or None if it was never searched."""
+        latest: tuple[datetime, ClaimRetrievalResult] | None = None
+        for run in self.retrieval_runs:
+            for result in run.results:
+                if result.claim_id == claim_id and (latest is None or run.started_at >= latest[0]):
+                    latest = (run.started_at, result)
+        return latest[1] if latest else None
 
     def touch(self) -> VerificationSession:
         """Return a copy with ``updated_at`` set to now."""

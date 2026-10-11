@@ -31,3 +31,42 @@ class SessionLoadError(StorageError):
 
 class InvalidIdentifierError(StorageError):
     """An identifier is malformed (and could be unsafe to use in a file path)."""
+
+
+# ------------------------------------------------------------- reference collections
+
+
+class ReferenceCollectionError(HallucinationLabError):
+    """Base class for reference collection, ingestion and retrieval problems."""
+
+
+class DocumentIngestionError(ReferenceCollectionError):
+    """A document could not be ingested (unsupported, empty, too large, undecodable)."""
+
+
+class DuplicateDocumentError(ReferenceCollectionError):
+    """The document's content is already registered in the collection."""
+
+
+class DocumentModifiedError(ReferenceCollectionError):
+    """A registered document's bytes no longer match the hash recorded when it was added."""
+
+
+class CollectionNotFoundError(ReferenceCollectionError):
+    """No reference collection exists with the requested name."""
+
+
+class ReadOnlyCollectionError(ReferenceCollectionError):
+    """The packaged demonstration collection cannot be modified through the tool."""
+
+
+class IndexNotFoundError(ReferenceCollectionError):
+    """The collection has not been indexed yet."""
+
+
+class StaleIndexError(ReferenceCollectionError):
+    """The saved index no longer matches the collection's documents or settings."""
+
+
+class QueryError(ReferenceCollectionError):
+    """A search query is empty or contains no searchable terms."""

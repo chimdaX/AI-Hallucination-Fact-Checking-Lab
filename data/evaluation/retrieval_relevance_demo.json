@@ -1,0 +1,259 @@
+{
+  "dataset": "retrieval_relevance_demo",
+  "collection": "demo",
+  "labelling_method": "Relevance criteria were written by reading the stored document text of the demo collection and choosing, for each query, exact phrases that state the information needed to assess the claim. A passage is relevant if it comes from the named file and contains the phrase. Criteria were written before running the retriever on these queries, and do not depend on passage IDs or chunking. Negative queries were checked by text search to confirm the collection contains no passage addressing them.",
+  "labelled_by": "Claude (AI coding assistant) during Milestone 2 development; single annotator",
+  "review_status": "not yet independently reviewed by a human - spot-check recommended",
+  "queries": [
+    {
+      "query_id": "R01",
+      "query": "The Eiffel Tower was completed in 1899 for the World's Fair in Paris.",
+      "category": "history_incorrect_date",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_eiffel_tower.txt",
+          "phrase": "designed and built the tower from 1887 to 1889"
+        },
+        {
+          "local_filename": "wikipedia_eiffel_tower.txt",
+          "phrase": "tallest structure when completed in 1889"
+        }
+      ],
+      "notes": "Claim contains a wrong year; relevant passages state the real dates."
+    },
+    {
+      "query_id": "R02",
+      "query": "It was designed and built by the engineering company of Gustave Eiffel.",
+      "category": "history_pronoun_context",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_eiffel_tower.txt",
+          "phrase": "whose company designed and built the tower"
+        }
+      ],
+      "notes": "Starts with a pronoun; the subject (Eiffel Tower) is not in the query."
+    },
+    {
+      "query_id": "R03",
+      "query": "The Eiffel Tower is 330 metres tall.",
+      "category": "measurement",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_eiffel_tower.txt",
+          "phrase": "The tower is 330 metres"
+        }
+      ]
+    },
+    {
+      "query_id": "R04",
+      "query": "Mount Everest is the highest mountain above sea level, with an elevation of about 9,848 metres.",
+      "category": "geography_incorrect_number",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_mount_everest.txt",
+          "phrase": "8,848.86 m"
+        }
+      ],
+      "notes": "Claim number is wrong (9,848); the relevant passage gives 8,848.86 m."
+    },
+    {
+      "query_id": "R05",
+      "query": "It sits on the border between Nepal and China.",
+      "category": "geography_pronoun_context",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_mount_everest.txt",
+          "phrase": "China–Nepal border"
+        }
+      ]
+    },
+    {
+      "query_id": "R06",
+      "query": "The first confirmed ascent was made by Edmund Hillary and Tenzing Norgay in 1953.",
+      "category": "history",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_mount_everest.txt",
+          "phrase": "made the first documented ascent of Everest in 1953"
+        }
+      ]
+    },
+    {
+      "query_id": "R07",
+      "query": "Water boils at 100 °C at standard atmospheric pressure.",
+      "category": "science",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_properties_of_water.txt",
+          "phrase": "boiling point of 100 °C"
+        }
+      ],
+      "notes": "Relevant passage states the 100 °C boiling point but does not mention pressure; partial evidence."
+    },
+    {
+      "query_id": "R08",
+      "query": "The chemical formula of water is H2O",
+      "category": "science",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_properties_of_water.txt",
+          "phrase": "chemical formula H2O"
+        }
+      ]
+    },
+    {
+      "query_id": "R09",
+      "query": "Each molecule contains two hydrogen atoms and one oxygen atom.",
+      "category": "science",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_properties_of_water.txt",
+          "phrase": "two hydrogen atoms covalently bonded to a single oxygen atom"
+        }
+      ]
+    },
+    {
+      "query_id": "R10",
+      "query": "Light from the Sun takes about 8 minutes to reach Earth.",
+      "category": "science_numeric",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_sunlight.txt",
+          "phrase": "Sunlight takes about 8.3 minutes to reach Earth"
+        }
+      ]
+    },
+    {
+      "query_id": "R11",
+      "query": "Albert Einstein once said, \"The definition of insanity is doing the same thing over and over and expecting different results.\"",
+      "category": "misattributed_quotation",
+      "relevant": [
+        {
+          "local_filename": "wikiquote_narcotics_anonymous.txt",
+          "phrase": "have been attributed to Albert Einstein"
+        }
+      ]
+    },
+    {
+      "query_id": "R12",
+      "query": "Currently, the tallest building in the world is the Burj Khalifa in Dubai.",
+      "category": "time_sensitive",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_burj_khalifa.txt",
+          "phrase": "tallest building in the world since"
+        }
+      ]
+    },
+    {
+      "query_id": "R13",
+      "query": "A leap year has 365 days.",
+      "category": "calendar_incorrect_number",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_leap_year.txt",
+          "phrase": "a leap year of 366 days"
+        }
+      ]
+    },
+    {
+      "query_id": "R14",
+      "query": "Pi is approximately 3.14159",
+      "category": "mathematics",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_pi.txt",
+          "phrase": "approximately equal to 3.14159"
+        }
+      ]
+    },
+    {
+      "query_id": "R15",
+      "query": "It is an irrational number.",
+      "category": "mathematics_pronoun_context",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_pi.txt",
+          "phrase": "is an irrational number"
+        }
+      ],
+      "notes": "Without context the subject (pi) is missing; any passage stating pi is irrational counts."
+    },
+    {
+      "query_id": "R16",
+      "query": "If humans lived on Mars, a year would last about 687 Earth days.",
+      "category": "vocabulary_mismatch",
+      "relevant": [
+        {
+          "local_filename": "nasa_mars_fact_sheet.txt",
+          "phrase": "Sidereal orbit period (days) | 686.980"
+        }
+      ],
+      "notes": "Hard case: the source says 'orbit period' and '686.980', the claim says 'year' and '687'."
+    },
+    {
+      "query_id": "R17",
+      "query": "Mars has two natural satellites.",
+      "category": "fact_sheet",
+      "relevant": [
+        {
+          "local_filename": "nasa_mars_fact_sheet.txt",
+          "phrase": "Number of natural satellites | 2"
+        }
+      ]
+    },
+    {
+      "query_id": "R18",
+      "query": "Guido van Rossum first released Python in 1991.",
+      "category": "technology_history",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_python_programming_language.txt",
+          "phrase": "first released it in 1991"
+        }
+      ]
+    },
+    {
+      "query_id": "R19",
+      "query": "Python was created as a successor to the ABC programming language.",
+      "category": "technology_history",
+      "relevant": [
+        {
+          "local_filename": "wikipedia_python_programming_language.txt",
+          "phrase": "as a successor to the ABC"
+        }
+      ]
+    },
+    {
+      "query_id": "N01",
+      "query": "According to a 2019 study by Hartwell et al. published in the Journal of Coastal Futures, 73% of coastal cities will be underwater by 2050.",
+      "category": "negative_fabricated_reference",
+      "relevant": [],
+      "notes": "Fabricated citation; the collection contains nothing on this topic."
+    },
+    {
+      "query_id": "N02",
+      "query": "The Great Wall of China is visible from space with the naked eye.",
+      "category": "negative_out_of_scope",
+      "relevant": []
+    },
+    {
+      "query_id": "N03",
+      "query": "The square root of 144 is 12.",
+      "category": "negative_out_of_scope",
+      "relevant": []
+    },
+    {
+      "query_id": "N04",
+      "query": "The Amazon River flows through Brazil and Peru.",
+      "category": "negative_out_of_scope",
+      "relevant": []
+    },
+    {
+      "query_id": "N05",
+      "query": "Shakespeare wrote Hamlet around 1600.",
+      "category": "negative_out_of_scope",
+      "relevant": []
+    }
+  ]
+}

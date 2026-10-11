@@ -1,0 +1,138 @@
+{
+  "schema_version": "1.0.0",
+  "session_id": "ses_acee8a9b7919b0b5",
+  "title": "Milestone 1 compatibility fixture",
+  "created_at": "2026-01-15T12:00:00Z",
+  "updated_at": "2026-01-15T12:00:00Z",
+  "response": {
+    "response_id": "rsp_9a5a98352b0193a4",
+    "text": "The Eiffel Tower was completed in 1889. A leap year has 365 days.",
+    "provenance": "synthetic_fixture",
+    "model_name": null,
+    "prompt": null,
+    "collected_at": null,
+    "notes": null
+  },
+  "claims": [
+    {
+      "claim_id": "clm_61c70c1efba17643",
+      "original_text": "The Eiffel Tower was completed in 1889.",
+      "normalized_claim": "The Eiffel Tower was completed in 1889.",
+      "source_response_id": "rsp_9a5a98352b0193a4",
+      "span": {
+        "start": 0,
+        "end": 39
+      },
+      "extraction_method": "rule_based",
+      "extractor_version": "rule_based-0.1.0",
+      "extraction_confidence": null,
+      "confidence_calibration": null,
+      "requires_verification": true,
+      "non_checkable_reason": null,
+      "temporal_context": "refers to: 1889",
+      "features": {
+        "numbers": [
+          "1889"
+        ],
+        "dates": [
+          "1889"
+        ],
+        "measurements": [],
+        "named_entities": [
+          "Eiffel Tower"
+        ],
+        "citations": [],
+        "quotations": [],
+        "temporal_markers": [],
+        "starts_with_pronoun": false
+      },
+      "extraction_notes": [
+        "no non-checkable rule matched"
+      ],
+      "reviewer_edits": [],
+      "is_active": true
+    },
+    {
+      "claim_id": "clm_46615583baf87d52",
+      "original_text": "A leap year has 365 days.",
+      "normalized_claim": "A leap year has 365 days.",
+      "source_response_id": "rsp_9a5a98352b0193a4",
+      "span": {
+        "start": 40,
+        "end": 65
+      },
+      "extraction_method": "rule_based",
+      "extractor_version": "rule_based-0.1.0",
+      "extraction_confidence": null,
+      "confidence_calibration": null,
+      "requires_verification": true,
+      "non_checkable_reason": null,
+      "temporal_context": null,
+      "features": {
+        "numbers": [
+          "365"
+        ],
+        "dates": [],
+        "measurements": [
+          "365 days"
+        ],
+        "named_entities": [],
+        "citations": [],
+        "quotations": [],
+        "temporal_markers": [],
+        "starts_with_pronoun": false
+      },
+      "extraction_notes": [
+        "no non-checkable rule matched"
+      ],
+      "reviewer_edits": [],
+      "is_active": true
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "evd_5a1f12b9fb057eda",
+      "claim_id": "clm_61c70c1efba17643",
+      "source_id": "src_fc5b32228da1e5ea",
+      "source_title": "Manually attached note",
+      "source_url": null,
+      "document_reference": "notes/eiffel.txt",
+      "retrieved_at": "2026-01-15T12:00:00Z",
+      "quoted_passage": "The tower was built from 1887 to 1889.",
+      "passage_location": {
+        "char_start": 0,
+        "char_end": 38,
+        "paragraph_index": null
+      },
+      "document_version": null,
+      "publication_date": null,
+      "retrieval_method": "manual",
+      "retrieval_rank": null,
+      "retrieval_score": null,
+      "retrieval_parameters": {}
+    }
+  ],
+  "verifications": [
+    {
+      "verification_id": "ver_1ceae1778a9f3378",
+      "claim_id": "clm_61c70c1efba17643",
+      "verdict": "SUPPORTED",
+      "reasoning": "Passage states the completion year.",
+      "supporting_evidence_ids": [
+        "evd_5a1f12b9fb057eda"
+      ],
+      "contradicting_evidence_ids": [],
+      "verification_method": "human",
+      "reviewer_id": "reviewer-1",
+      "verification_timestamp": "2026-01-15T12:00:00Z",
+      "provenance": {
+        "tool": "hallucination_lab",
+        "tool_version": "0.1.0.dev0",
+        "method_detail": "manual review",
+        "model_name": null,
+        "parameters": {}
+      }
+    }
+  ],
+  "notes": null
+}

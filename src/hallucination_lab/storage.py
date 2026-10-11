@@ -30,6 +30,7 @@ from hallucination_lab.errors import (
     StorageError,
 )
 from hallucination_lab.ids import is_valid_id
+from hallucination_lab.migrations import migrate_session_data
 from hallucination_lab.models import VerificationSession
 
 logger = logging.getLogger(__name__)
@@ -74,7 +75,7 @@ def load_session_file(path: Path) -> VerificationSession:
     except json.JSONDecodeError as exc:
         raise SessionLoadError(f"{path.name} is not valid JSON: {exc}") from exc
     try:
-        return VerificationSession.model_validate(data)
+        return VerificationSession.model_validate(migrate_session_data(data))
     except ValidationError as exc:
         raise SessionLoadError(
             f"{path.name} failed schema validation: {summarize_validation_error(exc)}"

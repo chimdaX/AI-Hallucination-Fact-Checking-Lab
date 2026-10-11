@@ -20,21 +20,36 @@ Nothing is pushed, tagged, or released without explicit approval.
 - Evaluate the extractor on the fixtures and record its failure cases
 - Optional, separately documented LLM-assisted extractor interface (no default provider)
 
-## Phase 3: Evidence retrieval
+## ✅ Milestone 2: Evidence retrieval (Phase 3)
 
-- Reference collection format: a folder of `.txt`/`.md` files plus `collection.json`
-  manifest (title, url/reference, licence, publication date, version)
-- Ingestion with validation (encoding, size, empty files, duplicate content via SHA-256)
-- Passage chunking with character offsets and paragraph index
-- BM25 index (`rank-bm25`), configurable `top_k`, `k1`, `b`; reindex command
-- Retrieval parameters stored on every `Evidence` record
-- A small curated, openly licensed reference collection (original writing or
-  public-domain/CC sources, licence recorded per document)
-- Tests: ingestion, malformed docs, ranking order on fixtures, provenance, reindex
+- Reference collections: manifest + documents, packaged read-only `demo` and user
+  collections, declared vs computed metadata with status
+- Ingestion of `.txt`/`.md`: validation, encodings, canonical text, duplicate and
+  modification detection, warnings
+- Passage segmentation: sections, sentence packing, configurable size and overlap,
+  offsets, line numbers, stable IDs
+- BM25 (direct implementation) with lexical tokenizer, per-term explanations,
+  de-duplication, per-source cap, deterministic ranking
+- Session integration: schema 1.1.0 (optional fields), migrations, retrieval runs with
+  explicit outcomes, passage hashes
+- CLI: `sources add/list/show/verify`, `index build`, `search`, `retrieve`,
+  `eval retrieval`
+- Demo collection of 10 real source texts with attribution; 24-query labelled retrieval
+  evaluation
+
+**Open follow-ups found during Milestone 2:**
+
+- Human review of the retrieval relevance labels (currently a single AI annotator)
+- Tokenizer: optional `-ing`/`-ed` stemming; evaluate on a *fresh* query set
+- Decide the default `max_per_source` (3 vs 5); see the trade-off in docs/RETRIEVAL.md
+- Manual confirmation of the NASA fact sheet's licence status
 
 ## Phase 4: Verification
 
-- Human verification API: record verdict, rationale, cited evidence IDs
+- Human verification API: record verdict, rationale, cited evidence IDs (evidence must
+  come from the session's retrieval candidates or be attached manually with provenance)
+- Use `RetrievalRun` outcomes so "searched, nothing found" maps to
+  `INSUFFICIENT_EVIDENCE`, never `CONTRADICTED`
 - Automated baseline for deterministic cases only:
   - numeric comparison between a claim and a curated reference record (with tolerance
     and unit normalisation)
