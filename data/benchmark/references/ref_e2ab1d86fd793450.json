@@ -1,0 +1,18 @@
+{
+  "reference_id": "ref_e2ab1d86fd793450",
+  "title": "Leap year (Wikipedia)",
+  "author_or_organization": "Wikipedia contributors",
+  "publisher": "Wikimedia Foundation",
+  "url": "https://en.wikipedia.org/w/index.php?title=Leap_year&oldid=1378838087",
+  "publication_date": null,
+  "accessed_on": "2026-10-11",
+  "document_version": "revision 1378838087 (2026-10-06T11:54:42Z)",
+  "source_type": "secondary_encyclopedia",
+  "license": "CC BY-SA 4.0",
+  "redistribution": "open_license_text_stored",
+  "reliability_notes": "Tertiary source (community-edited Wikipedia). Plain-text extract: infoboxes, tables, citations and some formatting are not included. Article history: https://en.wikipedia.org/w/index.php?title=Leap_year&action=history",
+  "capture_method": "packaged demo collection document (see data/references/demo/collection.json)",
+  "local_collection": "demo",
+  "local_filename": "wikipedia_leap_year.txt",
+  "local_content_sha256": "bd9242f40547699778d28af932fc9fa10b3cdc7e6957e4d57d633cd634388e76"
+}

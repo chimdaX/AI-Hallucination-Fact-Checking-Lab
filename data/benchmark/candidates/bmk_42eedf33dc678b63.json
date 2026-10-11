@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_42eedf33dc678b63",
+  "original_claim_text": "A leap year has 365 days.",
+  "claim_text": "A leap year has 365 days.",
+  "domain": "mathematics",
+  "difficulty": "easy",
+  "claim_types": [
+    "incorrect_number"
+  ],
+  "temporal_scope": null,
+  "original_context": "The square root of 144 is 12. A leap year has 365 days. Pi is approximately 3.14159, and it is an irrational number.",
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "adapted from the synthetic fixture 'Mathematics and calendar facts'",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_6ee106bb1966a103",
+      "reference_id": "ref_e2ab1d86fd793450",
+      "capture_status": "captured",
+      "locator": "wikipedia_leap_year.txt sentence containing 'a leap year of 366 days'; line 2, characters 798-958 of the extracted text",
+      "anchor_text": "a leap year of 366 days",
+      "end_anchor_text": null,
+      "passage_text": "The historic Julian calendar has three common years of 365 days followed by a leap year of 366 days, by extending February to 29 days rather than the common 28.",
+      "passage_sha256": "ce7b4eb3a36582bf10bf45d61fd4aeb9829b7efe9a0902c365ba3a6d77959f4a",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "CONTRADICTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "CONTRADICTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "A leap year has 366 days.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

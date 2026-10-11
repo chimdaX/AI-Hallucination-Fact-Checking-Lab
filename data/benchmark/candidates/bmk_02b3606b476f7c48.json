@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_02b3606b476f7c48",
+  "original_claim_text": "A year on Mars lasts about 687 Earth days.",
+  "claim_text": "A year on Mars lasts about 687 Earth days.",
+  "domain": "physical_sciences",
+  "difficulty": "medium",
+  "claim_types": [
+    "correct_assertion"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_4c7d02a2681c1b36",
+      "reference_id": "ref_8d146e5258bfaeab",
+      "capture_status": "captured",
+      "locator": "nasa_mars_fact_sheet.txt sentence containing 'Sidereal orbit period (days) | 686.980'; line 73, characters 1388-1444 of the extracted text",
+      "anchor_text": "Sidereal orbit period (days) | 686.980",
+      "end_anchor_text": null,
+      "passage_text": "Sidereal orbit period (days) | 686.980 | 365.256 | 1.881",
+      "passage_sha256": "a3a1260c27e1cdc81f476e3c7b49b985c7143e9edad735b1d775a94c931c8cd5",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "SUPPORTING",
+      "note": "Vocabulary differs from the claim ('orbit period' vs 'year')."
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "SUPPORTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "NASA fact sheet: sidereal orbit period 686.980 days.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "dev",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

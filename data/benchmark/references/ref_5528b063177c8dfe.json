@@ -1,0 +1,18 @@
+{
+  "reference_id": "ref_5528b063177c8dfe",
+  "title": "History and License (Python documentation)",
+  "author_or_organization": "Python Software Foundation",
+  "publisher": "Python Software Foundation",
+  "url": "https://docs.python.org/3/license.html",
+  "publication_date": null,
+  "accessed_on": "2026-10-11",
+  "document_version": "Python 3 documentation page as served on the access date",
+  "source_type": "technical_documentation",
+  "license": "Python documentation is distributed under the PSF License (requires manual confirmation of terms for excerpts)",
+  "redistribution": "open_license_text_stored",
+  "reliability_notes": "Primary documentation maintained by the language's steward.",
+  "capture_method": "HTTP GET on 2026-10-11; text extracted with html-text-v1",
+  "local_collection": null,
+  "local_filename": null,
+  "local_content_sha256": null
+}

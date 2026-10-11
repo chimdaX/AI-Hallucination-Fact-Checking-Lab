@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_e1a986ef1cb3816a",
+  "original_claim_text": "Python is the best programming language for beginners.",
+  "claim_text": "Python is the best programming language for beginners.",
+  "domain": "technology",
+  "difficulty": "medium",
+  "claim_types": [
+    "opinion"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "NOT_CHECKABLE",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Evaluative judgement without a defined criterion.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "dev",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "opinion: no factual evidence is required to review it",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

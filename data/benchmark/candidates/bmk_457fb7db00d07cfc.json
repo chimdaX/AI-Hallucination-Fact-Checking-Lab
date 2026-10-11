@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_457fb7db00d07cfc",
+  "original_claim_text": "The phrase 'I think, therefore I am' was first published by Isaac Newton.",
+  "claim_text": "The phrase 'I think, therefore I am' was first published by Isaac Newton.",
+  "domain": "quotations",
+  "difficulty": "medium",
+  "claim_types": [
+    "misattributed_quotation"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_f1abc9711b21997b",
+      "reference_id": "ref_145f88c6190bace6",
+      "capture_status": "captured",
+      "locator": "sentence containing 'He originally published it in French'; line 1, characters 189-351 of the extracted text",
+      "anchor_text": "He originally published it in French",
+      "end_anchor_text": null,
+      "passage_text": "He originally published it in French as je pense, donc je suis in his 1637 Discourse on the Method, so as to reach a wider audience than Latin would have allowed.",
+      "passage_sha256": "5268d1d5e76347c6c8cf9607941aed5640468980f7f6fe6976515bcb4a564761",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "CONTRADICTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "CONTRADICTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Published by Descartes in 1637.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "dev",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

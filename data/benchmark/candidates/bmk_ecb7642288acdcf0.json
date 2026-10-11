@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_ecb7642288acdcf0",
+  "original_claim_text": "Mount Everest is about 9,848 metres high.",
+  "claim_text": "Mount Everest is about 9,848 metres high.",
+  "domain": "geography",
+  "difficulty": "easy",
+  "claim_types": [
+    "incorrect_number"
+  ],
+  "temporal_scope": null,
+  "original_context": "Mount Everest is the highest mountain above sea level, with an elevation of about 9,848 metres. It sits on the border between Nepal and China. The first confirmed ascent was made by Edmund Hillary and Tenzing Norgay in 1953.",
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "adapted from the synthetic fixture 'Geography: Mount Everest'",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_8abb64b7dce365ca",
+      "reference_id": "ref_3b70c83aa7822d3f",
+      "capture_status": "captured",
+      "locator": "wikipedia_mount_everest.txt sentence containing '8,848.86 m'; line 1, characters 279-419 of the extracted text",
+      "anchor_text": "8,848.86 m",
+      "end_anchor_text": null,
+      "passage_text": "Its height was most recently measured in 2020 through a joint survey by Nepalese and Chinese authorities as 8,848.86 m (29,031 ft 8+1⁄2 in).",
+      "passage_sha256": "9718224e4b164dc9385f20ec6f001d51e0f6b229ba7bedfc6b9c65dfa305d223",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "CONTRADICTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [
+    {
+      "task": "Capture a primary source for the 2020 China-Nepal survey height",
+      "reason": "evidence is currently an encyclopedia only",
+      "created_at": "2026-10-11T16:49:05.829156Z",
+      "created_by": "claude-assistant",
+      "resolved": false
+    }
+  ],
+  "proposed_label": {
+    "verdict": "CONTRADICTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "2020 survey height is 8,848.86 m, 1,000 m lower.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

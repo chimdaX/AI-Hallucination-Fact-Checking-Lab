@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_6597a94d545caa90",
+  "original_claim_text": "Albert Einstein once said: 'The definition of insanity is doing the same thing over and over and expecting different results.'",
+  "claim_text": "Albert Einstein once said: 'The definition of insanity is doing the same thing over and over and expecting different results.'",
+  "domain": "quotations",
+  "difficulty": "hard",
+  "claim_types": [
+    "misattributed_quotation"
+  ],
+  "temporal_scope": null,
+  "original_context": "Albert Einstein once said, \"The definition of insanity is doing the same thing over and over and expecting different results.\" Currently, the tallest building in the world is the Burj Khalifa in Dubai. If humans lived on Mars, a year would last about 687 Earth days.",
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "adapted from the synthetic fixture 'Quotation, time-sensitive and hypothetical statements'",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_941793bc36b960ce",
+      "reference_id": "ref_ee7c219c7eef725f",
+      "capture_status": "captured",
+      "locator": "wikiquote_narcotics_anonymous.txt sentence containing 'have been attributed to Albert Einstein'; line 10, characters 1420-1662 of the extracted text",
+      "anchor_text": "have been attributed to Albert Einstein",
+      "end_anchor_text": null,
+      "passage_text": "Note: This quote and variants including \"The definition of insanity ...\" or \"One definition of ...\" have been attributed to Albert Einstein, Ben Franklin, Confucius, and an old Chinese proverb, but this is its first known appearance in print.",
+      "passage_sha256": "351a299f6aa430ecee2d5be993bbb12c7c5902f43181edcbcd1bd545e30ae490",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "UNCERTAIN",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "INSUFFICIENT_EVIDENCE",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Earliest known print appearance is 1981 (Narcotics Anonymous); no source shows Einstein said it. Reviewers may judge this strong enough for CONTRADICTED (boundary case).",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

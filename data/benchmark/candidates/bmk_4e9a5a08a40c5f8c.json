@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_4e9a5a08a40c5f8c",
+  "original_claim_text": "The World Health Organization declared smallpox eradicated in 1980.",
+  "claim_text": "The World Health Organization declared smallpox eradicated in 1980.",
+  "domain": "public_health",
+  "difficulty": "easy",
+  "claim_types": [
+    "correct_assertion"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_a2c49cf61822ef46",
+      "reference_id": "ref_cb69b5d2e2936eb0",
+      "capture_status": "captured",
+      "locator": "span from 'In 1980 WHO declared' to 'achieve this distinction.'; line 197, characters 3592-3691 of the extracted text",
+      "anchor_text": "In 1980 WHO declared",
+      "end_anchor_text": "achieve this distinction.",
+      "passage_text": null,
+      "passage_sha256": "ba829beb6282d6be2eb93b3e20bef926a051a783a4b0773f35ea92b452072230",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "SUPPORTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "SUPPORTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "WHO page: 'In 1980 WHO declared smallpox eradicated'.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "dev",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_9b645fe5fddc1c95",
+  "original_claim_text": "Light from the Sun takes about eight hours to reach Earth.",
+  "claim_text": "Light from the Sun takes about eight hours to reach Earth.",
+  "domain": "physical_sciences",
+  "difficulty": "easy",
+  "claim_types": [
+    "incorrect_number"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_a54dc4ea879b00f7",
+      "reference_id": "ref_838a817436a657ac",
+      "capture_status": "captured",
+      "locator": "wikipedia_sunlight.txt sentence containing 'Sunlight takes about 8.3 minutes to reach Earth'; line 3, characters 1148-1224 of the extracted text",
+      "anchor_text": "Sunlight takes about 8.3 minutes to reach Earth",
+      "end_anchor_text": null,
+      "passage_text": "Sunlight takes about 8.3 minutes to reach Earth from the surface of the Sun.",
+      "passage_sha256": "3c87de707f55ec3ab6252228e1891a28440dc232db17df1ea11444a4e045603b",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "CONTRADICTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "CONTRADICTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "About 8.3 minutes, not hours.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

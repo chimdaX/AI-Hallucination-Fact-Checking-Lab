@@ -1,0 +1,18 @@
+{
+  "reference_id": "ref_586ab7f4c8cd45a3",
+  "title": "Eiffel Tower (Wikipedia)",
+  "author_or_organization": "Wikipedia contributors",
+  "publisher": "Wikimedia Foundation",
+  "url": "https://en.wikipedia.org/w/index.php?title=Eiffel_Tower&oldid=1376706466",
+  "publication_date": null,
+  "accessed_on": "2026-10-11",
+  "document_version": "revision 1376706466 (2026-09-25T19:49:48Z)",
+  "source_type": "secondary_encyclopedia",
+  "license": "CC BY-SA 4.0",
+  "redistribution": "open_license_text_stored",
+  "reliability_notes": "Tertiary source (community-edited Wikipedia). Plain-text extract: infoboxes, tables, citations and some formatting are not included. Article history: https://en.wikipedia.org/w/index.php?title=Eiffel_Tower&action=history",
+  "capture_method": "packaged demo collection document (see data/references/demo/collection.json)",
+  "local_collection": "demo",
+  "local_filename": "wikipedia_eiffel_tower.txt",
+  "local_content_sha256": "5a23eb4c34fc4a6f79b85d3148f03de310380951cfe39d94d0eecf8cce027a3f"
+}

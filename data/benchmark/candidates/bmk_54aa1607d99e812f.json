@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_54aa1607d99e812f",
+  "original_claim_text": "Absolute zero is equivalent to -273.15 degrees Celsius.",
+  "claim_text": "Absolute zero is equivalent to -273.15 degrees Celsius.",
+  "domain": "physical_sciences",
+  "difficulty": "easy",
+  "claim_types": [
+    "correct_assertion"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_88d672451ca0b9b7",
+      "reference_id": "ref_c07c2a561be24111",
+      "capture_status": "captured",
+      "locator": "sentence containing 'equivalent to −273.15 °C'; line 1, characters 157-306 of the extracted text",
+      "anchor_text": "equivalent to −273.15 °C",
+      "end_anchor_text": null,
+      "passage_text": "The Kelvin scale is defined so that absolute zero is 0 Kelvin, equivalent to −273.15 °C on the Celsius scale, and −459.67 °F on the Fahrenheit scale.",
+      "passage_sha256": "c9975e2ed16bcc66932bb58e1781e5b54889a073c2ef7a7745d92e888602c7b0",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "SUPPORTING",
+      "note": "Source uses the Unicode minus sign."
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [
+    {
+      "task": "Add a primary metrology source (e.g. the BIPM SI Brochure)",
+      "reason": "evidence is currently an encyclopedia only",
+      "created_at": "2026-10-11T16:49:05.829156Z",
+      "created_by": "claude-assistant",
+      "resolved": false
+    }
+  ],
+  "proposed_label": {
+    "verdict": "SUPPORTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Kelvin scale definition: 0 K = -273.15 °C.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "dev",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

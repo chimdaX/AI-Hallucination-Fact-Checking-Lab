@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_212e640e08cb52fc",
+  "original_claim_text": "Python was created by Guido van Rossum as a successor to the ABC language.",
+  "claim_text": "Python was created by Guido van Rossum as a successor to the ABC language.",
+  "domain": "technology",
+  "difficulty": "easy",
+  "claim_types": [
+    "correct_assertion"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_9b942f880122ab78",
+      "reference_id": "ref_5528b063177c8dfe",
+      "capture_status": "captured",
+      "locator": "span from 'Python was created in the early 1990s' to 'successor of a language called ABC.'; line 62, characters 1122-1303 of the extracted text",
+      "anchor_text": "Python was created in the early 1990s",
+      "end_anchor_text": "successor of a language called ABC.",
+      "passage_text": "Python was created in the early 1990s by Guido van Rossum at Stichting\nMathematisch Centrum (CWI, see https://www.cwi.nl) in the Netherlands as a\nsuccessor of a language called ABC.",
+      "passage_sha256": "24caa1455e3c6ab5fd279090df37f0b2084715b1fedc802c3e6ffa4bcb797e3e",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "SUPPORTING",
+      "note": null
+    },
+    {
+      "evidence_id": "bev_688f1ae7145dae5f",
+      "reference_id": "ref_d391384ccddbda68",
+      "capture_status": "captured",
+      "locator": "wikipedia_python_programming_language.txt sentence containing 'as a successor to the ABC'; line 2, characters 365-471 of the extracted text",
+      "anchor_text": "as a successor to the ABC",
+      "end_anchor_text": null,
+      "passage_text": "Guido van Rossum began working on Python in the late 1980s as a successor to the ABC programming language.",
+      "passage_sha256": "f5a4ec79d5730eea74b92a01add37ebd3f677838649e8df3304e2cd15217accf",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "SUPPORTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "SUPPORTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Python's own documentation states both facts.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "dev",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

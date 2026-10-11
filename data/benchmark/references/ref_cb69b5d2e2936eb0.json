@@ -1,0 +1,18 @@
+{
+  "reference_id": "ref_cb69b5d2e2936eb0",
+  "title": "Smallpox (health topic)",
+  "author_or_organization": "World Health Organization",
+  "publisher": "WHO",
+  "url": "https://www.who.int/health-topics/smallpox",
+  "publication_date": null,
+  "accessed_on": "2026-10-11",
+  "document_version": null,
+  "source_type": "official_institution",
+  "license": "WHO website terms; redistribution status not confirmed",
+  "redistribution": "locator_only",
+  "reliability_notes": "Official source of the organisation that declared eradication.",
+  "capture_method": "HTTP GET on 2026-10-11; text extracted with html-text-v1",
+  "local_collection": null,
+  "local_filename": null,
+  "local_content_sha256": null
+}

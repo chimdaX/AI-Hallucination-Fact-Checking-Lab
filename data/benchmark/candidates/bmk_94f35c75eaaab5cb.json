@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_94f35c75eaaab5cb",
+  "original_claim_text": "The world's population is currently about 6 billion people.",
+  "claim_text": "The world's population is currently about 6 billion people.",
+  "domain": "general_knowledge",
+  "difficulty": "medium",
+  "claim_types": [
+    "time_sensitive",
+    "incorrect_number"
+  ],
+  "temporal_scope": "Present tense; judge against evidence current on the access date",
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_03c8df6948c11a4c",
+      "reference_id": "ref_da5673e65bd9ca8a",
+      "capture_status": "captured",
+      "locator": "span from 'On 15 November 2022' to 'milestone in human development.'; line 62, characters 2229-2332 of the extracted text",
+      "anchor_text": "On 15 November 2022",
+      "end_anchor_text": "milestone in human development.",
+      "passage_text": null,
+      "passage_sha256": "5ea9ae300c5018cd868214ebde8da2e678d02d7a0a19ab645f0c3b4d469b009f",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "CONTRADICTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "CONTRADICTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "UN: 8 billion reached in November 2022.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

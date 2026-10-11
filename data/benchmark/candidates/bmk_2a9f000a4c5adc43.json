@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_2a9f000a4c5adc43",
+  "original_claim_text": "The speed of light in vacuum is about 186,000 kilometres per second.",
+  "claim_text": "The speed of light in vacuum is about 186,000 kilometres per second.",
+  "domain": "physical_sciences",
+  "difficulty": "medium",
+  "claim_types": [
+    "incorrect_number",
+    "misleading_context"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_d60c0d88238bece0",
+      "reference_id": "ref_ecd7e64cfae5e795",
+      "capture_status": "captured",
+      "locator": "span from 'speed of light in vacuum\\nNumerical value' to '(exact)'; line 16, characters 182-269 of the extracted text",
+      "anchor_text": "speed of light in vacuum\nNumerical value",
+      "end_anchor_text": "(exact)",
+      "passage_text": "speed of light in vacuum\nNumerical value\n299 792 458 m s-1\nStandard uncertainty\n(exact)",
+      "passage_sha256": "30032ac70dacfdeab32e3092cdef152c5d9064f1111217890e542a38f175095d",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "CONTRADICTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "CONTRADICTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "About 299,792 km/s; 186,000 is the figure in miles per second (unit confusion).",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

@@ -1,0 +1,18 @@
+{
+  "reference_id": "ref_da5673e65bd9ca8a",
+  "title": "Global Issues: Population",
+  "author_or_organization": "United Nations",
+  "publisher": "United Nations",
+  "url": "https://www.un.org/en/global-issues/population",
+  "publication_date": null,
+  "accessed_on": "2026-10-11",
+  "document_version": null,
+  "source_type": "official_institution",
+  "license": "UN website terms; redistribution status not confirmed",
+  "redistribution": "locator_only",
+  "reliability_notes": "Official UN overview; figures come from UN DESA population estimates.",
+  "capture_method": "HTTP GET on 2026-10-11; text extracted with html-text-v1",
+  "local_collection": null,
+  "local_filename": null,
+  "local_content_sha256": null
+}

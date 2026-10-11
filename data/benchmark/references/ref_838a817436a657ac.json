@@ -1,0 +1,18 @@
+{
+  "reference_id": "ref_838a817436a657ac",
+  "title": "Sunlight (Wikipedia)",
+  "author_or_organization": "Wikipedia contributors",
+  "publisher": "Wikimedia Foundation",
+  "url": "https://en.wikipedia.org/w/index.php?title=Sunlight&oldid=1378209366",
+  "publication_date": null,
+  "accessed_on": "2026-10-11",
+  "document_version": "revision 1378209366 (2026-10-03T14:04:31Z)",
+  "source_type": "secondary_encyclopedia",
+  "license": "CC BY-SA 4.0",
+  "redistribution": "open_license_text_stored",
+  "reliability_notes": "Tertiary source (community-edited Wikipedia). Plain-text extract: infoboxes, tables, citations and some formatting are not included. Article history: https://en.wikipedia.org/w/index.php?title=Sunlight&action=history",
+  "capture_method": "packaged demo collection document (see data/references/demo/collection.json)",
+  "local_collection": "demo",
+  "local_filename": "wikipedia_sunlight.txt",
+  "local_content_sha256": "9724b838c2c25436f0f90cb7ae1987ebf32fac60746c3046ad7c2bf40ad64a5f"
+}

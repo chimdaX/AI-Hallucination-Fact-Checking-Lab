@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_27362f574866df73",
+  "original_claim_text": "In a 2017 survey, 64 percent of Canadians said they prefer tea over coffee.",
+  "claim_text": "In a 2017 survey, 64 percent of Canadians said they prefer tea over coffee.",
+  "domain": "general_knowledge",
+  "difficulty": "medium",
+  "claim_types": [
+    "unsupported_statistic"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [],
+  "research_log": [
+    {
+      "query": "2017 survey Canadians prefer tea over coffee 64 percent",
+      "service": "Crossref API (works)",
+      "request_url": "https://api.crossref.org/works?query.bibliographic=2017+survey+Canadians+prefer+tea+over+coffee+64+percent&rows=5",
+      "performed_at": "2026-10-11T16:49:05.829156Z",
+      "performed_by": "claude-assistant (automated HTTP query; result assessment by the same AI assistant)",
+      "result_summary": "8,630,591 works returned (relevance-ranked fuzzy match); the top 5 were inspected and none is a 2017 survey of Canadians' tea/coffee preference: Canadians survey their science-manpower trends; Coffee and Tea; 13 Tea with Her Majesty; Arousal and Behavior: Biopsychological Effects of Caffeine; The rise and fall of ‘King Coffee’"
+    }
+  ],
+  "research_tasks": [
+    {
+      "task": "Search polling organisations' archives for such a survey",
+      "reason": "polls are rarely indexed in Crossref",
+      "created_at": "2026-10-11T16:49:05.829156Z",
+      "created_by": "claude-assistant",
+      "resolved": false
+    }
+  ],
+  "proposed_label": {
+    "verdict": "INSUFFICIENT_EVIDENCE",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "No survey identified.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "search records documented",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

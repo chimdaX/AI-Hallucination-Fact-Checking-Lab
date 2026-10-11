@@ -297,6 +297,50 @@ registered with `CollectionCatalog.add_document`, so encoding, size, binary and
 duplicate checks are unchanged. Packaged collections stay read-only, and typed
 metadata is recorded as `user_supplied`.
 
+## Milestone 5 decisions: ground-truth benchmark
+
+### 33. Proposed labels and human labels are different data types
+
+`ProposedLabel` (with a fixed "not ground truth" notice) is stored on the item. Human
+judgements are separate write-once `Annotation` / `Adjudication` files, and the official
+label exists only inside a human `Approval`. `decide_label` never reads the proposed
+label, and a test proves that a wrong AI proposal cannot leak into the label. Reviewer
+IDs reserved for automated authors are rejected by the schema.
+
+### 34. Blind review
+
+The proposed label is hidden by default in the CLI and the web interface. Revealing it
+is possible but is recorded on the subsequent review
+(`proposed_label_seen_before_review`), so anchoring bias can be audited.
+
+### 35. Evidence as captured, hashed passages
+
+Each passage has a stable ID (source + passage hash), a locator, its anchors and the
+capture method. Text is stored only when the licence allows. Re-running the same
+extraction on the same source must reproduce the hash. That is how
+`check-sources --online` detects changes, and how the candidate build was verified to be
+reproducible.
+
+### 36. Item content fingerprint ties reviews to what was reviewed
+
+Reviews and approvals store the item's `content_sha256` (claim, context, scope,
+evidence). New evidence makes earlier reviews non-current instead of silently carrying
+them over. Exports refuse approvals whose content changed.
+
+### 37. Review kinds make the strength of a label explicit
+
+First review, independent second review (different person) and delayed repeat review
+(same person, at least 24 h later) are distinct types. The approved label carries its
+`review_level`, so a one-person project is honest about what it is, rather than
+presenting self-review as inter-annotator agreement.
+
+### 38. Evaluation refuses what it cannot measure
+
+Evaluation requires an immutable approved export, and predictions must match its
+version and `dataset_sha256`. Coverage, abstention and missing counts are reported apart
+from conditional and strict accuracy, and precision is *undefined* rather than 0 when a
+class is never predicted. Test-partition runs are logged, and repeats are flagged.
+
 ## Risks and mitigations
 
 | Risk | Mitigation |
@@ -321,3 +365,7 @@ metadata is recorded as `user_supplied`.
 | Streamlit reruns cause duplicate or stale writes | Reload-per-run, view-freshness check, store version check, idempotent commit |
 | Dashboard read as a hallucination rate | Captions on every count; split by data provenance; no rates computed |
 | Tracebacks shown to users | Per-page error boundary; `showErrorDetails = "none"` |
+| AI-authored labels mistaken for ground truth | Separate types; hidden during review; "provisional" notices; 0 approved at delivery |
+| Tuning on the test split | Deterministic dev/test split; every test evaluation logged; repeat warning |
+| Evidence source changes after capture | Passage hashes; online re-check; pinned Wikipedia revisions |
+| Over-claiming from a tiny benchmark | Counts with every rate; small-sample note; review level per item |

@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_2bbb12d933dc8e5d",
+  "original_claim_text": "There are infinitely many prime numbers.",
+  "claim_text": "There are infinitely many prime numbers.",
+  "domain": "mathematics",
+  "difficulty": "easy",
+  "claim_types": [
+    "correct_assertion"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_804664088a9bb972",
+      "reference_id": "ref_b8e2794ad9758716",
+      "capture_status": "captured",
+      "locator": "sentence containing 'asserts that there are infinitely many prime numbers'; line 1, characters 0-119 of the extracted text",
+      "anchor_text": "asserts that there are infinitely many prime numbers",
+      "end_anchor_text": null,
+      "passage_text": "Euclid's theorem is a fundamental statement in number theory that asserts that there are infinitely many prime numbers.",
+      "passage_sha256": "b5227642d9c9c8e4a487313c875e2b380ef5c44cd2805c3537de150cd1c7e35d",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "SUPPORTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "SUPPORTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Euclid's theorem.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

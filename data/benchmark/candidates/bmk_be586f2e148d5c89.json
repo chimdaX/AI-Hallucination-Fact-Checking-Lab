@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_be586f2e148d5c89",
+  "original_claim_text": "The Nile is the longest river in the world.",
+  "claim_text": "The Nile is the longest river in the world.",
+  "domain": "geography",
+  "difficulty": "hard",
+  "claim_types": [
+    "ambiguous"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_a807ff93d2cc1301",
+      "reference_id": "ref_ce74c860419c14aa",
+      "capture_status": "captured",
+      "locator": "sentence containing 'it is the longest river in the world'; line 1, characters 102-289 of the extracted text",
+      "anchor_text": "it is the longest river in the world",
+      "end_anchor_text": null,
+      "passage_text": "At 7,088 kilometers (4,404 mi) long, it is the longest river in the world, although the volume of water it carries is much smaller than other major rivers such as the Amazon or the Congo.",
+      "passage_sha256": "fd0feff41f6169dd082cae64bcc699162e5252dd67906382d2dbe9bc00d06456",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "SUPPORTING",
+      "note": null
+    },
+    {
+      "evidence_id": "bev_e85f7f665a2ad0e8",
+      "reference_id": "ref_ed8a6b1a9db5f2ed",
+      "capture_status": "captured",
+      "locator": "sentence containing 'a title which is disputed with the Nile'; line 1, characters 0-199 of the extracted text",
+      "anchor_text": "a title which is disputed with the Nile",
+      "end_anchor_text": null,
+      "passage_text": "The Amazon River in South America is the largest river in the world by discharge volume of water, and the second-longest or longest river system in the world, a title which is disputed with the Nile.",
+      "passage_sha256": "1321c0d27b5b6db07de40b18cd08efc3e6fbdf3e0af59ffa758424bcb77ddaa8",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "UNCERTAIN",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "INSUFFICIENT_EVIDENCE",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Sources conflict: the title is disputed with the Amazon depending on measurement.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "dev",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

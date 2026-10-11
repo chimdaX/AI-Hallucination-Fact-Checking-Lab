@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_b2212445a9cc96d0",
+  "original_claim_text": "According to a 2019 study by Hartwell et al. published in the Journal of Coastal Futures, 73% of coastal cities will be underwater by 2050.",
+  "claim_text": "According to a 2019 study by Hartwell et al. published in the Journal of Coastal Futures, 73% of coastal cities will be underwater by 2050.",
+  "domain": "environmental_science",
+  "difficulty": "hard",
+  "claim_types": [
+    "fabricated_reference",
+    "unsupported_statistic"
+  ],
+  "temporal_scope": null,
+  "original_context": "According to a 2019 study by Hartwell et al. published in the Journal of Coastal Futures, 73% of coastal cities will be underwater by 2050. You should consult local authorities for official flood maps.",
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "adapted from the synthetic fixture 'Fabricated reference and unsupported statistic'",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [],
+  "research_log": [
+    {
+      "query": "Journal of Coastal Futures",
+      "service": "Crossref API (journals)",
+      "request_url": "https://api.crossref.org/journals?query=Journal+of+Coastal+Futures&rows=5",
+      "performed_at": "2026-10-11T16:49:05.829156Z",
+      "performed_by": "claude-assistant (automated HTTP query; result assessment by the same AI assistant)",
+      "result_summary": "No journal matched the query (0 results); searched for a journal named 'Journal of Coastal Futures'."
+    },
+    {
+      "query": "Hartwell 2019 coastal cities underwater 2050",
+      "service": "Crossref API (works)",
+      "request_url": "https://api.crossref.org/works?query.bibliographic=Hartwell+2019+coastal+cities+underwater+2050&rows=5",
+      "performed_at": "2026-10-11T16:49:05.829156Z",
+      "performed_by": "claude-assistant (automated HTTP query; result assessment by the same AI assistant)",
+      "result_summary": "7,939,673 works returned (relevance-ranked fuzzy match); the top 5 were inspected and none is a 2019 study by Hartwell et al. on coastal flooding: Adaptation to Climate Change in Coastal Cities, 2050; Issues in Underwater Cultural Heritage Impact Assessments in China; Analysis of Ocean-Space and Sea-Level Rise Policy in Two Coastal Cities; Who Owns Underwater Cultural Heritage in the South China Sea; A Noise Suppression Method for Underwater Vehicle Flow"
+    }
+  ],
+  "research_tasks": [
+    {
+      "task": "Search Google Scholar and a library database manually",
+      "reason": "Crossref coverage is incomplete",
+      "created_at": "2026-10-11T16:49:05.829156Z",
+      "created_by": "claude-assistant",
+      "resolved": false
+    }
+  ],
+  "proposed_label": {
+    "verdict": "INSUFFICIENT_EVIDENCE",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "No trace of the journal or study in the documented searches; absence of evidence is not a contradiction.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "dev",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "search records documented",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

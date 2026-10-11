@@ -1,0 +1,18 @@
+{
+  "reference_id": "ref_e655ed9a84e18397",
+  "title": "Properties of water (Wikipedia)",
+  "author_or_organization": "Wikipedia contributors",
+  "publisher": "Wikimedia Foundation",
+  "url": "https://en.wikipedia.org/w/index.php?title=Properties_of_water&oldid=1377952885",
+  "publication_date": null,
+  "accessed_on": "2026-10-11",
+  "document_version": "revision 1377952885 (2026-10-02T02:56:56Z)",
+  "source_type": "secondary_encyclopedia",
+  "license": "CC BY-SA 4.0",
+  "redistribution": "open_license_text_stored",
+  "reliability_notes": "Tertiary source (community-edited Wikipedia). Plain-text extract: infoboxes, tables, citations and some formatting are not included. Article history: https://en.wikipedia.org/w/index.php?title=Properties_of_water&action=history",
+  "capture_method": "packaged demo collection document (see data/references/demo/collection.json)",
+  "local_collection": "demo",
+  "local_filename": "wikipedia_properties_of_water.txt",
+  "local_content_sha256": "b6cefd03237aaa53adb0796f09c8c31aa7cdd27907390ab0550f8ba991292b27"
+}

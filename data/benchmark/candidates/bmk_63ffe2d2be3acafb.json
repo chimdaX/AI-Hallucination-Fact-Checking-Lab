@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_63ffe2d2be3acafb",
+  "original_claim_text": "Pi is approximately 3.14159.",
+  "claim_text": "Pi is approximately 3.14159.",
+  "domain": "mathematics",
+  "difficulty": "easy",
+  "claim_types": [
+    "correct_assertion"
+  ],
+  "temporal_scope": null,
+  "original_context": "The square root of 144 is 12. A leap year has 365 days. Pi is approximately 3.14159, and it is an irrational number.",
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "adapted from the synthetic fixture 'Mathematics and calendar facts'",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_3e5c028ca1ed08bf",
+      "reference_id": "ref_65e3d79b38c3c3d5",
+      "capture_status": "captured",
+      "locator": "wikipedia_pi.txt sentence containing 'approximately equal to 3.14159'; line 1, characters 0-158 of the extracted text",
+      "anchor_text": "approximately equal to 3.14159",
+      "end_anchor_text": null,
+      "passage_text": "The number π ( ; spelled out as pi) is a mathematical constant, approximately equal to 3.14159, that is the ratio of a circle's circumference to its diameter.",
+      "passage_sha256": "22107a5fe48a1dc75f32e241dd4b0b1eddafb7da4b10e658c17817f97c539aab",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "SUPPORTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "SUPPORTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Encyclopedic definition gives pi as approximately 3.14159.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "dev",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_a07348d73b63bd57",
+  "original_claim_text": "The chemical formula of water is H2O, and each water molecule contains two hydrogen atoms and one oxygen atom.",
+  "claim_text": "The chemical formula of water is H2O, and each water molecule contains two hydrogen atoms and one oxygen atom.",
+  "domain": "physical_sciences",
+  "difficulty": "easy",
+  "claim_types": [
+    "correct_assertion",
+    "compound"
+  ],
+  "temporal_scope": null,
+  "original_context": "Water boils at 100 °C at standard atmospheric pressure. The chemical formula of water is H2O, and each molecule contains two hydrogen atoms and one oxygen atom. Light from the Sun takes about 8 minutes to reach Earth. I think chemistry is the most fascinating science.",
+  "split_recommendation": {
+    "should_split": true,
+    "proposed_parts": [
+      "The chemical formula of water is H2O.",
+      "Each water molecule contains two hydrogen atoms and one oxygen atom."
+    ],
+    "note": "Two propositions; both supported by the same source, but split if reviewers need per-proposition labels."
+  },
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "adapted from the synthetic fixture 'Science: water and light'",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_50518d860952a102",
+      "reference_id": "ref_e655ed9a84e18397",
+      "capture_status": "captured",
+      "locator": "wikipedia_properties_of_water.txt sentence containing 'chemical formula H2O'; line 8, characters 1410-1556 of the extracted text",
+      "anchor_text": "chemical formula H2O",
+      "end_anchor_text": null,
+      "passage_text": "Water is the chemical substance with chemical formula H2O; one molecule of water has two hydrogen atoms covalently bonded to a single oxygen atom.",
+      "passage_sha256": "98c10f0f0b5dd49e79b7a37753c387f8992681a810a4877871e6a92e46a904a3",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "SUPPORTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "SUPPORTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Both parts are stated in the water article.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "dev",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

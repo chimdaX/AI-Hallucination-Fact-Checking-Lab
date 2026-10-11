@@ -1,0 +1,18 @@
+{
+  "reference_id": "ref_d391384ccddbda68",
+  "title": "Python (programming language) (Wikipedia)",
+  "author_or_organization": "Wikipedia contributors",
+  "publisher": "Wikimedia Foundation",
+  "url": "https://en.wikipedia.org/w/index.php?title=Python_%28programming_language%29&oldid=1379554758",
+  "publication_date": null,
+  "accessed_on": "2026-10-11",
+  "document_version": "revision 1379554758 (2026-10-10T17:56:06Z)",
+  "source_type": "secondary_encyclopedia",
+  "license": "CC BY-SA 4.0",
+  "redistribution": "open_license_text_stored",
+  "reliability_notes": "Tertiary source (community-edited Wikipedia). Plain-text extract: infoboxes, tables, citations and some formatting are not included. Article history: https://en.wikipedia.org/w/index.php?title=Python_%28programming_language%29&action=history",
+  "capture_method": "packaged demo collection document (see data/references/demo/collection.json)",
+  "local_collection": "demo",
+  "local_filename": "wikipedia_python_programming_language.txt",
+  "local_content_sha256": "8f75f5c9bbee1b98323bb2da90ddaef769d5acb287a2c461b475f4b9848a71ae"
+}

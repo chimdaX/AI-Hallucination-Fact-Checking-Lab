@@ -35,6 +35,7 @@ Open **http://localhost:8501** in your browser.
 | **Human verification** | Per claim: context, retrieval parameters, passages with source, URL, dates, licence, location and integrity status. Label passages, choose a verdict, cite passages, write a rationale, save a draft, review and confirm. Correct a verdict through a revision. |
 | **Reports** | Session findings, charts (verdicts, status, evidence usage), unresolved claims, integrity warnings, limitations. Download **JSON / CSV / Markdown**. |
 | **Reference collections** | Browse collections (packaged vs user-supplied), document metadata, licences, registration dates, SHA-256 hashes, integrity check, index status, document preview. Add `.txt`/`.md` documents to your own collections. |
+| **Benchmark** | The ground-truth benchmark (separate from sessions): filter candidates by status, domain, difficulty and partition; inspect evidence and sources; review **blind** (the AI-proposed label is hidden, and revealing it is recorded); adjudicate disagreements; approve; export immutable versions; download provisional candidates (marked NOT ground truth). |
 | **Getting started** | Short explanation and an example to try. |
 
 ## Example workflow

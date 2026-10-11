@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_80c379258c820528",
+  "original_claim_text": "Sunlight takes about eight minutes to reach Earth.",
+  "claim_text": "Sunlight takes about eight minutes to reach Earth.",
+  "domain": "physical_sciences",
+  "difficulty": "easy",
+  "claim_types": [
+    "correct_assertion"
+  ],
+  "temporal_scope": null,
+  "original_context": "Water boils at 100 °C at standard atmospheric pressure. The chemical formula of water is H2O, and each molecule contains two hydrogen atoms and one oxygen atom. Light from the Sun takes about 8 minutes to reach Earth. I think chemistry is the most fascinating science.",
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "adapted from the synthetic fixture 'Science: water and light'",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_a54dc4ea879b00f7",
+      "reference_id": "ref_838a817436a657ac",
+      "capture_status": "captured",
+      "locator": "wikipedia_sunlight.txt sentence containing 'Sunlight takes about 8.3 minutes to reach Earth'; line 3, characters 1148-1224 of the extracted text",
+      "anchor_text": "Sunlight takes about 8.3 minutes to reach Earth",
+      "end_anchor_text": null,
+      "passage_text": "Sunlight takes about 8.3 minutes to reach Earth from the surface of the Sun.",
+      "passage_sha256": "3c87de707f55ec3ab6252228e1891a28440dc232db17df1ea11444a4e045603b",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "SUPPORTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "SUPPORTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Source gives about 8.3 minutes; 'about eight' fits.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

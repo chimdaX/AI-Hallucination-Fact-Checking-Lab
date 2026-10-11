@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_0512d1ab0fb35248",
+  "original_claim_text": "A 2018 study found that houseplants reduce office stress by 37 percent.",
+  "claim_text": "A 2018 study found that houseplants reduce office stress by 37 percent.",
+  "domain": "public_health",
+  "difficulty": "medium",
+  "claim_types": [
+    "unsupported_statistic",
+    "fabricated_reference"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [],
+  "research_log": [
+    {
+      "query": "2018 study houseplants reduce office stress 37 percent",
+      "service": "Crossref API (works)",
+      "request_url": "https://api.crossref.org/works?query.bibliographic=2018+study+houseplants+reduce+office+stress+37+percent&rows=5",
+      "performed_at": "2026-10-11T16:49:05.829156Z",
+      "performed_by": "claude-assistant (automated HTTP query; result assessment by the same AI assistant)",
+      "result_summary": "15,706,647 works returned (relevance-ranked fuzzy match); the top 5 were inspected and none is a 2018 study reporting a 37% stress reduction: Percent coral cover - Jarvis island; Percent cover of coral in pacific Panama using the point intercept method from 2; 03 / Does the ERAS program reduce the metabolic stress in colorectal surgery? A ; Percent cover of coral in pacific Panama using the coral point count method from; The Impact Study of Houseplants in Purification of Environment Using Wireless Se"
+    }
+  ],
+  "research_tasks": [
+    {
+      "task": "Search PubMed for the claimed study",
+      "reason": "no matching study found yet",
+      "created_at": "2026-10-11T16:49:05.829156Z",
+      "created_by": "claude-assistant",
+      "resolved": false
+    }
+  ],
+  "proposed_label": {
+    "verdict": "INSUFFICIENT_EVIDENCE",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "No study identified; figure unsourced.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "search records documented",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

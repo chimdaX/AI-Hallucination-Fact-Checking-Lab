@@ -11,7 +11,11 @@ The tool does not decide what is true on its own authority. Every verdict must c
 evidence and record how it was produced. Human judgments and automated suggestions are
 kept apart at the schema level.
 
-> **Status: pre-alpha (milestone 4 of 8).** Claim extraction, offline BM25 evidence
+> **Status: pre-alpha (milestone 5 of 8).** A ground-truth **benchmark framework** now
+> exists with **45 AI-authored candidate claims and 0 human-approved items**; it stays
+> provisional until a human reviews and approves items.
+>
+> Earlier milestones: Claim extraction, offline BM25 evidence
 > retrieval, **human verification** (passage assessments, evidence-backed verdicts,
 > drafts, revision history), a **local Streamlit web interface**, and **JSON / CSV /
 > Markdown reports** work and are tested. **All verdicts are human. No automated
@@ -57,8 +61,11 @@ claims instead of whole responses.
 | Automated baseline verification (deterministic cases only, labelled as automated) | ⏳ Phase 4 | — |
 | Local Streamlit web interface: dashboard, analysis, verification, reports, collections | ✅ implemented, tested (AppTest and headless-browser smoke test) | `app/streamlit_app.py`, `src/hallucination_lab/ui/` |
 | Verification reports: JSON / CSV / Markdown, deterministic fingerprint, full audit trail | ✅ implemented, tested | `services/reports.py`, `hallab report` |
+| Benchmark framework: candidates, verbatim evidence capture, blind human review, second review / adjudication, approval, immutable versioned exports | ✅ implemented, tested | `src/hallucination_lab/benchmark/`, `hallab benchmark`, Benchmark page |
+| Benchmark evaluation (coverage, conditional/strict accuracy, per-class P/R/F1, macro-F1, confusion matrix, test-split logging) | ✅ implemented, tested (no approved labels yet, so no results) | `benchmark/evaluation.py` |
+| Benchmark candidate set: 45 claims across 10 domains with captured evidence | 🟡 **provisional**: AI-authored, 0 approved | `data/benchmark/` |
 | UI-independent application services (workspace, dashboard, reports) | ✅ implemented, tested | `src/hallucination_lab/services/` |
-| Labelled benchmark and metrics | ⏳ Phase 6 | — |
+| Automated verification baseline evaluated on the approved benchmark | ⏳ next | — |
 | Docker, CI, release | ⏳ Phase 8 | — |
 
 ## Integrity rules enforced in code
@@ -172,6 +179,21 @@ hallab report --session <session_id> --format md --output report.md   # or json 
 
 How to judge claims, write rationales, and correct verdicts is covered in
 [docs/HUMAN_VERIFICATION_GUIDE.md](docs/HUMAN_VERIFICATION_GUIDE.md).
+
+### Benchmark (under development)
+
+```bash
+hallab benchmark status                                   # 45 candidates, 0 approved
+hallab benchmark review ITEM_ID --reviewer-id YOU         # blind human review
+hallab benchmark approve ITEM_ID --approver-id YOU --confirm-own-judgement
+hallab benchmark export --version 1.0.0 --created-by YOU  # approved items only
+hallab benchmark evaluate --predictions preds.json --partition dev
+```
+
+Candidates and their proposed labels were written by an AI assistant and are hidden
+during review; only human-approved items become ground truth. See
+[docs/BENCHMARK_METHODOLOGY.md](docs/BENCHMARK_METHODOLOGY.md) and
+[docs/BENCHMARK_GUIDE.md](docs/BENCHMARK_GUIDE.md).
 
 Excerpt of step 2's output:
 
@@ -299,11 +321,15 @@ src/hallucination_lab/
     workspace.py     conflict-safe load/save, claim edits, retrieval, verification
     dashboard.py     totals across sessions (active verdicts only)
     reports.py       JSON / CSV / Markdown reports
+  benchmark/         ground-truth benchmark: models, store, workflow, capture,
+                     integrity, evaluation, retrieval analysis
+  cli_benchmark.py   hallab benchmark ...
   ui/                Streamlit pages (call services only)
 app/streamlit_app.py   web interface launcher
 data/examples/       synthetic response fixtures (hand-written, labelled as such)
 data/references/demo/  packaged reference collection + CONTENT_LICENSE.md
-data/evaluation/     labelled retrieval queries
+data/evaluation/     labelled retrieval queries (Milestone 2)
+data/benchmark/      benchmark: candidates, references, annotations, approved versions
 scripts/             dataset build scripts
 tests/               pytest suite (fixtures/ holds real schema-1.0.0 and 1.1.0 sessions)
 docs/                architecture, retrieval guide, human verification guide, roadmap
@@ -312,7 +338,9 @@ docs/                architecture, retrieval guide, human verification guide, ro
 More detail: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) ·
 [docs/RETRIEVAL.md](docs/RETRIEVAL.md) ·
 [docs/HUMAN_VERIFICATION_GUIDE.md](docs/HUMAN_VERIFICATION_GUIDE.md) ·
-[docs/WEB_INTERFACE.md](docs/WEB_INTERFACE.md) · [docs/ROADMAP.md](docs/ROADMAP.md)
+[docs/WEB_INTERFACE.md](docs/WEB_INTERFACE.md) ·
+[docs/BENCHMARK_METHODOLOGY.md](docs/BENCHMARK_METHODOLOGY.md) ·
+[docs/BENCHMARK_GUIDE.md](docs/BENCHMARK_GUIDE.md) · [docs/ROADMAP.md](docs/ROADMAP.md)
 
 ## Retrieval is not verification
 
@@ -360,6 +388,10 @@ is stored with any verdict that cites them.
   not ground truth.
 - Tests use invented text about a fictional place ("Lake Verenna"), clearly labelled as
   a synthetic test fixture.
+- `data/benchmark/` holds AI-authored candidate claims with evidence captured verbatim
+  from Wikipedia revisions (CC BY-SA), the demo collection, and official pages (NIST,
+  WHO, Federal Reserve, Python docs, UN). Text is stored only where the licence allows;
+  WHO, Federal Reserve and UN passages are kept as locator + hash only.
 
 ## Licence
 

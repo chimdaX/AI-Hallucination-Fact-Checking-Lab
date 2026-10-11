@@ -1,0 +1,18 @@
+{
+  "reference_id": "ref_ecd7e64cfae5e795",
+  "title": "CODATA value: speed of light in vacuum",
+  "author_or_organization": "National Institute of Standards and Technology (NIST)",
+  "publisher": "NIST",
+  "url": "https://physics.nist.gov/cgi-bin/cuu/Value?c",
+  "publication_date": null,
+  "accessed_on": "2026-10-11",
+  "document_version": "2022 CODATA recommended values (as stated on the page)",
+  "source_type": "official_institution",
+  "license": "U.S. Government work; believed not subject to copyright in the U.S. (requires manual confirmation)",
+  "redistribution": "public_domain_text_stored",
+  "reliability_notes": "Primary authoritative source for fundamental physical constants.",
+  "capture_method": "HTTP GET on 2026-10-11; text extracted with html-text-v1",
+  "local_collection": null,
+  "local_filename": null,
+  "local_content_sha256": null
+}

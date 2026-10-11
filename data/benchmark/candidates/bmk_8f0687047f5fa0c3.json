@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_8f0687047f5fa0c3",
+  "original_claim_text": "Humans use only 10 percent of their brains.",
+  "claim_text": "Humans use only 10 percent of their brains.",
+  "domain": "public_health",
+  "difficulty": "medium",
+  "claim_types": [
+    "common_myth"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_9897954a908644a2",
+      "reference_id": "ref_6dc661a3a8efcdc8",
+      "capture_status": "captured",
+      "locator": "sentence containing 'all parts of the brain show some level of activity'; line 28, characters 5153-5240 of the extracted text",
+      "anchor_text": "all parts of the brain show some level of activity",
+      "end_anchor_text": null,
+      "passage_text": "They reveal that even during sleep, all parts of the brain show some level of activity.",
+      "passage_sha256": "386941fe6333171f87a14d4602bc08d9db6584e6f61eab08255a3c938ec5352d",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "CONTRADICTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [
+    {
+      "task": "Add a peer-reviewed or institutional neuroscience source",
+      "reason": "evidence is currently an encyclopedia only",
+      "created_at": "2026-10-11T16:49:05.829156Z",
+      "created_by": "claude-assistant",
+      "resolved": false
+    }
+  ],
+  "proposed_label": {
+    "verdict": "CONTRADICTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Imaging shows activity in all parts of the brain.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

@@ -147,6 +147,13 @@ def safe_page(render: Callable[[], None]) -> Callable[[], None]:
     return wrapper
 
 
+def summarize_error(exc: Exception) -> str:
+    """Readable one-line message for expected errors (validation or workflow)."""
+    if isinstance(exc, ValidationError):
+        return summarize_validation_error(exc)
+    return str(exc)
+
+
 def run_action(fn: Callable[[], None]) -> None:
     """Run a button handler, converting expected failures into messages."""
     try:

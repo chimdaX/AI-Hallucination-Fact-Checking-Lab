@@ -20,7 +20,7 @@ from pathlib import Path
 
 from pydantic import ValidationError
 
-from hallucination_lab import __version__, cli_report, cli_retrieval, cli_verify
+from hallucination_lab import __version__, cli_benchmark, cli_report, cli_retrieval, cli_verify
 from hallucination_lab.config import Settings
 from hallucination_lab.errors import HallucinationLabError
 from hallucination_lab.examples import load_examples
@@ -156,6 +156,7 @@ def build_parser() -> argparse.ArgumentParser:
     cli_retrieval.register(sub)
     cli_verify.register(sub)
     cli_report.register(sub)
+    cli_benchmark.register(sub)
     return parser
 
 

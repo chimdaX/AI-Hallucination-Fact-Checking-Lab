@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_b998614664d8592f",
+  "original_claim_text": "The Great Wall of China can be seen with the naked eye from the Moon.",
+  "claim_text": "The Great Wall of China can be seen with the naked eye from the Moon.",
+  "domain": "general_knowledge",
+  "difficulty": "medium",
+  "claim_types": [
+    "common_myth"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_8bd38fefaba7b444",
+      "reference_id": "ref_fa4314e82ba2c1ac",
+      "capture_status": "captured",
+      "locator": "sentence containing 'cannot be seen by the naked human eye from the Moon'; line 83, characters 20398-20558 of the extracted text",
+      "anchor_text": "cannot be seen by the naked human eye from the Moon",
+      "end_anchor_text": null,
+      "passage_text": "The Great Wall of China cannot be seen by the naked human eye from the Moon which orbits around Earth at an average distance of 384,399 kilometres (238,854 mi).",
+      "passage_sha256": "70f7cf58a26c25d9c280f53a7bc45e1559df9f88fb4c3df45bead19ef4d2364f",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "CONTRADICTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [
+    {
+      "task": "Add a primary NASA source on visibility from orbit and the Moon",
+      "reason": "the NASA article URL redirected to a generic page on the access date",
+      "created_at": "2026-10-11T16:49:05.829156Z",
+      "created_by": "claude-assistant",
+      "resolved": false
+    }
+  ],
+  "proposed_label": {
+    "verdict": "CONTRADICTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "It cannot be seen by the naked eye from the Moon.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

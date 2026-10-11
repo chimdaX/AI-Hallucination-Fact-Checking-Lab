@@ -1,0 +1,18 @@
+{
+  "reference_id": "ref_65e3d79b38c3c3d5",
+  "title": "Pi (Wikipedia)",
+  "author_or_organization": "Wikipedia contributors",
+  "publisher": "Wikimedia Foundation",
+  "url": "https://en.wikipedia.org/w/index.php?title=Pi&oldid=1377733505",
+  "publication_date": null,
+  "accessed_on": "2026-10-11",
+  "document_version": "revision 1377733505 (2026-09-30T21:27:08Z)",
+  "source_type": "secondary_encyclopedia",
+  "license": "CC BY-SA 4.0",
+  "redistribution": "open_license_text_stored",
+  "reliability_notes": "Tertiary source (community-edited Wikipedia). Plain-text extract: infoboxes, tables, citations and some formatting are not included. Article history: https://en.wikipedia.org/w/index.php?title=Pi&action=history",
+  "capture_method": "packaged demo collection document (see data/references/demo/collection.json)",
+  "local_collection": "demo",
+  "local_filename": "wikipedia_pi.txt",
+  "local_content_sha256": "9f45162e0f6db4f0f2c036ba526235574d49761acf366d6956ad09d5d1656585"
+}

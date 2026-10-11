@@ -209,3 +209,176 @@ def evidence_containing(session, claim_id: str, text: str) -> str:
         if text in ev.quoted_passage:
             return ev.evidence_id
     raise AssertionError(f"no evidence for {claim_id} containing {text!r}")
+
+
+# ---------------------------------------------------------------- benchmark fixtures
+
+
+class Bench:
+    """Helpers around a temporary benchmark store built from the synthetic collection."""
+
+    def __init__(self, store, catalog):
+        self.store, self.catalog = store, catalog
+
+    def item(
+        self,
+        text,
+        *,
+        passages=(("completed in 1874", "CONTRADICTING"),),
+        ready=True,
+        domain="history",
+        proposed=None,
+        context=None,
+    ):
+        from hallucination_lab.benchmark.capture import extract_sentence
+        from hallucination_lab.benchmark.ids import evidence_id_for
+        from hallucination_lab.benchmark.models import (
+            AuthorType,
+            CandidateProvenance,
+            CaptureStatus,
+            ClaimType,
+            Difficulty,
+            Domain,
+            EvidenceReference,
+            ProposedLabel,
+            ReviewStatus,
+        )
+        from hallucination_lab.benchmark.workflow import add_candidate, set_status
+        from hallucination_lab.models import EvidenceLabel, Verdict, utc_now
+
+        evidence = []
+        for anchor, relation in passages:
+            cap = extract_sentence(self.lake_text, anchor)
+            locator = f"lake_verenna.md sentence containing {anchor!r}"
+            evidence.append(
+                EvidenceReference(
+                    evidence_id=evidence_id_for(self.lake_ref.reference_id, cap.sha256, locator),
+                    reference_id=self.lake_ref.reference_id,
+                    capture_status=CaptureStatus.CAPTURED,
+                    locator=locator,
+                    anchor_text=anchor,
+                    passage_text=cap.text,
+                    passage_sha256=cap.sha256,
+                    captured_at=utc_now(),
+                    captured_by="test",
+                    proposed_relation=EvidenceLabel(relation),
+                )
+            )
+        label = None
+        if proposed:
+            label = ProposedLabel(
+                verdict=Verdict(proposed),
+                proposed_by="claude-assistant",
+                proposer_type=AuthorType.AI_ASSISTANT,
+                rationale="test",
+                proposed_at=utc_now(),
+            )
+        item, _ = add_candidate(
+            self.store,
+            claim_text=text,
+            domain=Domain(domain),
+            difficulty=Difficulty.EASY,
+            claim_types=[ClaimType.INCORRECT_DATE],
+            original_context=context,
+            provenance=CandidateProvenance(
+                author="claude-assistant",
+                author_type=AuthorType.AI_ASSISTANT,
+                created_at=utc_now(),
+                method="test fixture",
+            ),
+            evidence=evidence,
+            proposed_label=label,
+        )
+        if ready:
+            item = set_status(
+                self.store,
+                item.item_id,
+                ReviewStatus.READY_FOR_REVIEW,
+                "claude-assistant",
+                "evidence captured",
+            )
+        return item
+
+    def review(
+        self,
+        item,
+        reviewer="alice",
+        verdict="CONTRADICTED",
+        relation="CONTRADICTING",
+        kind="first_review",
+        now=None,
+        **kw,
+    ):
+        from hallucination_lab.benchmark.models import EvidenceJudgement, ReviewKind
+        from hallucination_lab.benchmark.workflow import record_annotation
+        from hallucination_lab.models import EvidenceLabel, Verdict
+
+        item = self.store.load_item(item.item_id)
+        cite = verdict in {"SUPPORTED", "CONTRADICTED"}
+        return record_annotation(
+            self.store,
+            item.item_id,
+            reviewer_id=reviewer,
+            review_kind=ReviewKind(kind),
+            verdict=Verdict(verdict),
+            rationale=kw.pop("rationale", "The passage dates the first bridge to 1874."),
+            evidence_judgements=[
+                EvidenceJudgement(
+                    evidence_id=e.evidence_id, relation=EvidenceLabel(relation), reliability="high"
+                )
+                for e in item.evidence
+            ],
+            cited_evidence_ids=[e.evidence_id for e in item.evidence] if cite else [],
+            confirmed_own_judgement=kw.pop("confirmed", True),
+            now=now,
+            **kw,
+        )
+
+
+@pytest.fixture
+def bench(tmp_path, catalog, test_collection, monkeypatch):
+    from datetime import date
+
+    from hallucination_lab.benchmark.ids import reference_id_for
+    from hallucination_lab.benchmark.models import (
+        BenchmarkManifest,
+        Redistribution,
+        ReferenceSource,
+        SourceType,
+    )
+    from hallucination_lab.benchmark.store import BenchmarkStore
+    from hallucination_lab.models import utc_now
+    from hallucination_lab.retrieval.ingest import load_document
+
+    root = tmp_path / "benchmark"
+    monkeypatch.setenv("HALLAB_BENCHMARK_DIR", str(root))
+    store = BenchmarkStore(root)
+    store.save_manifest(
+        BenchmarkManifest(
+            name="test-benchmark",
+            description="test",
+            status_notice="test only",
+            created_at=utc_now(),
+            partition_rule="hash",
+        )
+    )
+    manifest = catalog.load_manifest(test_collection)
+    entry = next(d for d in manifest.documents if d.local_filename == "lake_verenna.md")
+    ref = ReferenceSource(
+        reference_id=reference_id_for("testrefs/lake_verenna.md", entry.content_sha256),
+        title="Lake Verenna (synthetic test fixture)",
+        source_type=SourceType.OTHER,
+        redistribution=Redistribution.OPEN_LICENSE_TEXT_STORED,
+        capture_method="test",
+        accessed_on=date(2026, 1, 1),
+        local_collection=test_collection,
+        local_filename="lake_verenna.md",
+        local_content_sha256=entry.content_sha256,
+    )
+    store.save_reference(ref)
+    helper = Bench(store, catalog)
+    helper.lake_ref = ref
+    helper.lake_text = load_document(
+        catalog.documents_dir(test_collection) / "lake_verenna.md"
+    ).text
+    return helper

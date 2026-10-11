@@ -1,0 +1,18 @@
+{
+  "reference_id": "ref_3b70c83aa7822d3f",
+  "title": "Mount Everest (Wikipedia)",
+  "author_or_organization": "Wikipedia contributors",
+  "publisher": "Wikimedia Foundation",
+  "url": "https://en.wikipedia.org/w/index.php?title=Mount_Everest&oldid=1376942985",
+  "publication_date": null,
+  "accessed_on": "2026-10-11",
+  "document_version": "revision 1376942985 (2026-09-27T02:29:28Z)",
+  "source_type": "secondary_encyclopedia",
+  "license": "CC BY-SA 4.0",
+  "redistribution": "open_license_text_stored",
+  "reliability_notes": "Tertiary source (community-edited Wikipedia). Plain-text extract: infoboxes, tables, citations and some formatting are not included. Article history: https://en.wikipedia.org/w/index.php?title=Mount_Everest&action=history",
+  "capture_method": "packaged demo collection document (see data/references/demo/collection.json)",
+  "local_collection": "demo",
+  "local_filename": "wikipedia_mount_everest.txt",
+  "local_content_sha256": "da501413b6572c5d1bc04d01312264a9e48eeac2ebf6bdbc8417795bf74e32a6"
+}

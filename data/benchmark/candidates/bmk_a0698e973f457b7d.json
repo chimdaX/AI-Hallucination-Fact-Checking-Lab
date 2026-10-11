@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_a0698e973f457b7d",
+  "original_claim_text": "Marie Antoinette said 'Let them eat cake' when told the peasants had no bread.",
+  "claim_text": "Marie Antoinette said 'Let them eat cake' when told the peasants had no bread.",
+  "domain": "quotations",
+  "difficulty": "hard",
+  "claim_types": [
+    "misattributed_quotation"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_ce914bad5ac19d92",
+      "reference_id": "ref_8ab0e23881342c66",
+      "capture_status": "captured",
+      "locator": "sentence containing 'there is no evidence that she ever uttered it'; line 2, characters 461-636 of the extracted text",
+      "anchor_text": "there is no evidence that she ever uttered it",
+      "end_anchor_text": null,
+      "passage_text": "Although the phrase is conventionally attributed to Marie Antoinette, there is no evidence that she ever uttered it, and it is now generally regarded as a journalistic cliché.",
+      "passage_sha256": "8e9438351b3705bef5ec895502b628fbb7fff62af955fd1ca3bada6693ed218b",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "UNCERTAIN",
+      "note": null
+    },
+    {
+      "evidence_id": "bev_9175f303a79d55d5",
+      "reference_id": "ref_8ab0e23881342c66",
+      "capture_status": "captured",
+      "locator": "sentence containing 'The phrase can actually be traced back to Jean-Jacques'; line 2, characters 637-833 of the extracted text",
+      "anchor_text": "The phrase can actually be traced back to Jean-Jacques",
+      "end_anchor_text": null,
+      "passage_text": "The phrase can actually be traced back to Jean-Jacques Rousseau's Confessions in 1765, 24 years prior to the French Revolution, and when Antoinette was nine years old and had never been to France.",
+      "passage_sha256": "51399cc5249466daea6142e01a981ae478139689e8fceede6b041d3b54db4dd9",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "UNCERTAIN",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "INSUFFICIENT_EVIDENCE",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "No evidence she said it; the phrase predates her arrival in France. Boundary between INSUFFICIENT and CONTRADICTED.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

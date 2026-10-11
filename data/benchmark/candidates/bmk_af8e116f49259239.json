@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_af8e116f49259239",
+  "original_claim_text": "A 2021 report by the Global Ocean Restoration Council found that worldwide coral cover increased by 40 percent.",
+  "claim_text": "A 2021 report by the Global Ocean Restoration Council found that worldwide coral cover increased by 40 percent.",
+  "domain": "environmental_science",
+  "difficulty": "hard",
+  "claim_types": [
+    "fabricated_reference",
+    "unsupported_statistic"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [],
+  "research_log": [
+    {
+      "query": "Global Ocean Restoration Council",
+      "service": "Crossref API (journals)",
+      "request_url": "https://api.crossref.org/journals?query=Global+Ocean+Restoration+Council&rows=5",
+      "performed_at": "2026-10-11T16:49:05.829156Z",
+      "performed_by": "claude-assistant (automated HTTP query; result assessment by the same AI assistant)",
+      "result_summary": "No journal matched the query (0 results); searched for a publication venue named 'Global Ocean Restoration Council'."
+    },
+    {
+      "query": "Global Ocean Restoration Council 2021 coral cover increased 40 percent",
+      "service": "Crossref API (works)",
+      "request_url": "https://api.crossref.org/works?query.bibliographic=Global+Ocean+Restoration+Council+2021+coral+cover+increased+40+percent&rows=5",
+      "performed_at": "2026-10-11T16:49:05.829156Z",
+      "performed_by": "claude-assistant (automated HTTP query; result assessment by the same AI assistant)",
+      "result_summary": "280,425 works returned (relevance-ranked fuzzy match); the top 5 were inspected and none is a 2021 report finding a 40% worldwide increase in coral cover: Percent coral cover - Jarvis island; Figure 2: The relationship between mean coral species richness and mean percent ; Supplemental Information 5: Percent cover of coral and turf algae; Percent cover of coral in pacific Panama using the coral point count method from; Figure 3: The relationship between percent coral cover and disease frequency at"
+    }
+  ],
+  "research_tasks": [
+    {
+      "task": "Search for the organisation name in web search and NGO registries",
+      "reason": "Crossref covers scholarly publications only",
+      "created_at": "2026-10-11T16:49:05.829156Z",
+      "created_by": "claude-assistant",
+      "resolved": false
+    }
+  ],
+  "proposed_label": {
+    "verdict": "INSUFFICIENT_EVIDENCE",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Organisation and report not found in the documented searches. The organisation name was invented for this item.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "search records documented",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

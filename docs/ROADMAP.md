@@ -63,16 +63,6 @@ Nothing is pushed, tagged, or released without explicit approval.
 - Authenticated reviewer identity (currently self-declared)
 - Attaching manually found evidence (outside retrieval) with provenance
 
-## Phase 4: Automated baseline (deterministic suggestions only)
-
-- Numeric comparison between a claim and a curated reference record (with tolerance
-  and unit normalisation), and exact match against curated fact records
-- Output stored as `automated_rule` verifications: never counted as human verdicts,
-  always citing evidence, and anything uncertain returns `INSUFFICIENT_EVIDENCE`
-- Use `RetrievalRun` outcomes so "searched, nothing found" maps to
-  `INSUFFICIENT_EVIDENCE`, never `CONTRADICTED`
-- Tests: missing evidence ≠ contradiction, numeric edge cases, human override
-
 ## ✅ Milestone 4: Streamlit interface and reports (Phase 5)
 
 - Local Streamlit app: Dashboard, Analyze response, Human verification, Reports,
@@ -90,18 +80,41 @@ Nothing is pushed, tagged, or released without explicit approval.
 - Merge of concurrent edits (currently detected and refused)
 - Optional authentication if the app is ever shared beyond one machine
 
-## Phase 6: Benchmark
+## ✅ Milestone 5: Ground-truth benchmark framework (Phase 6)
 
-- 30–50 claim-level examples across the specified categories
-- Each label backed by a cited reference; items needing manual verification marked
-- Metrics (per-class counts, confusion matrix, precision/recall/F1) computed only on
-  the labelled set, with the evaluation script included
+- Methodology (`docs/BENCHMARK_METHODOLOGY.md`) and user guide (`docs/BENCHMARK_GUIDE.md`)
+- Benchmark schema, write-once store, workflow (status, blind review, independent and
+  repeat reviews, adjudication, approval), immutable versioned exports
+- 45 AI-authored candidates with verbatim, hashed evidence from 26 sources; 6 documented
+  Crossref searches; 11 open research tasks
+- Evaluation (coverage, conditional/strict accuracy, per-class P/R/F1, macro-F1,
+  confusion matrix, test-split logging); retrieval analysis kept separate
+- CLI `hallab benchmark ...` and a Benchmark page in the web interface
 
-## Phase 7: Testing and reproducibility hardening
+**Open (human work, required before any metric is reported):**
+
+- Review and approve candidates (0 approved); ideally a second, independent reviewer
+- Resolve the 11 research tasks, especially primary sources for encyclopedia-only items
+- Confirm the licence status of NIST, Python docs and NASA excerpts
+- Export benchmark version 1.0.0 once enough items are approved
+
+## Phase 7: Automated baseline (next)
+
+- Numeric comparison between a claim and a curated reference record (with tolerance
+  and unit normalisation), and exact match against curated fact records
+- Output stored as `automated_rule` verifications: never counted as human verdicts,
+  always citing evidence, and anything uncertain returns `INSUFFICIENT_EVIDENCE`
+- Use `RetrievalRun` outcomes so "searched, nothing found" maps to
+  `INSUFFICIENT_EVIDENCE`, never `CONTRADICTED`
+- Tests: missing evidence ≠ contradiction, numeric edge cases, human override
+- Evaluate on the benchmark **dev** split during development and on **test** once,
+  against the approved export
+
+## Phase 8: Testing and reproducibility hardening
 
 - Coverage review against the spec's test list; offline-run check
 
-## Phase 8: Packaging and release
+## Phase 9: Packaging and release
 
 - Dockerfile; GitHub Actions (tests, lint, build) on Linux/Windows/macOS
 - Package the example data properly (currently resolved from the source tree)

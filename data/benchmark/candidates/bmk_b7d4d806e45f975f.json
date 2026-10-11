@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_b7d4d806e45f975f",
+  "original_claim_text": "Antibiotics are not effective against viral infections.",
+  "claim_text": "Antibiotics are not effective against viral infections.",
+  "domain": "public_health",
+  "difficulty": "easy",
+  "claim_types": [
+    "correct_assertion"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_7be0584e29dd2a3d",
+      "reference_id": "ref_7a5144c401c7ab21",
+      "capture_status": "captured",
+      "locator": "sentence containing 'antibiotics are not effective against viruses'; line 1, characters 324-452 of the extracted text",
+      "anchor_text": "antibiotics are not effective against viruses",
+      "end_anchor_text": null,
+      "passage_text": "A limited number of antibiotics also possess antiprotozoal activity, but antibiotics are not effective against viruses or fungi.",
+      "passage_sha256": "2091293ca33657ed823ffaebd547fd47747dc7d7266939296aaa7e917fe50301",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "SUPPORTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [
+    {
+      "task": "Capture an official public-health source (e.g. CDC antibiotic-use page)",
+      "reason": "cdc.gov returned HTTP 403 to automated access on 2026-10-11; not bypassed",
+      "created_at": "2026-10-11T16:49:05.829156Z",
+      "created_by": "claude-assistant",
+      "resolved": false
+    }
+  ],
+  "proposed_label": {
+    "verdict": "SUPPORTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Antibiotics act on bacteria, not viruses.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

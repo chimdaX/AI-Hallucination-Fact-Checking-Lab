@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_6f9b2024c3a02ee5",
+  "original_claim_text": "Mars has three natural moons.",
+  "claim_text": "Mars has three natural moons.",
+  "domain": "physical_sciences",
+  "difficulty": "easy",
+  "claim_types": [
+    "incorrect_number"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_3a9512b227142663",
+      "reference_id": "ref_8d146e5258bfaeab",
+      "capture_status": "captured",
+      "locator": "nasa_mars_fact_sheet.txt sentence containing 'Number of natural satellites | 2'; line 57, characters 1122-1158 of the extracted text",
+      "anchor_text": "Number of natural satellites | 2",
+      "end_anchor_text": null,
+      "passage_text": "Number of natural satellites | 2 | 1",
+      "passage_sha256": "247ebb5f46df61f559f371845986537626fa8910b8a0382eef3e7efd59a9fd67",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "CONTRADICTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "CONTRADICTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "NASA fact sheet: 2 natural satellites.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

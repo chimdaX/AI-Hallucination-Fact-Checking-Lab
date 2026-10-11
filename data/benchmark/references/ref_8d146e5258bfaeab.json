@@ -1,0 +1,18 @@
+{
+  "reference_id": "ref_8d146e5258bfaeab",
+  "title": "Mars Fact Sheet",
+  "author_or_organization": "Dr. David R. Williams (Author/Curator), NSSDCA, NASA Goddard Space Flight Center",
+  "publisher": "NASA Space Science Data Coordinated Archive (NSSDCA)",
+  "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html",
+  "publication_date": null,
+  "accessed_on": "2026-10-11",
+  "document_version": "page last updated 19 May 2025",
+  "source_type": "official_institution",
+  "license": "U.S. Government work (NASA); believed public domain in the U.S. - requires manual confirmation",
+  "redistribution": "public_domain_text_stored",
+  "reliability_notes": "Primary/official data source. Converted from HTML by scripts/build_demo_collection.py: table cells joined with ' | ', superscripts written as '^', footer contact block omitted.",
+  "capture_method": "packaged demo collection document (see data/references/demo/collection.json)",
+  "local_collection": "demo",
+  "local_filename": "nasa_mars_fact_sheet.txt",
+  "local_content_sha256": "e7c9530f9ebd5b0f6252ac08689e4bd9b14b33738dff93bd16e80c763bf4efa7"
+}

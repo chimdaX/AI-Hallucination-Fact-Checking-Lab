@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_9fcb6ee24d3a5d6d",
+  "original_claim_text": "The Eiffel Tower was completed in 1889.",
+  "claim_text": "The Eiffel Tower was completed in 1889.",
+  "domain": "history",
+  "difficulty": "easy",
+  "claim_types": [
+    "correct_assertion"
+  ],
+  "temporal_scope": null,
+  "original_context": null,
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "written by an AI assistant to cover the benchmark composition targets",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_989b8cd9a9e610ff",
+      "reference_id": "ref_586ab7f4c8cd45a3",
+      "capture_status": "captured",
+      "locator": "wikipedia_eiffel_tower.txt sentence containing 'tallest structure when completed in 1889'; line 168, characters 37845-38016 of the extracted text",
+      "anchor_text": "tallest structure when completed in 1889",
+      "end_anchor_text": null,
+      "passage_text": "The Eiffel Tower was the world's tallest structure when completed in 1889, a distinction it retained until 1929 when the Chrysler Building in New York City was topped out.",
+      "passage_sha256": "46973407d7252a6020d801ba19e944290c080c867ce30d369a68cd0b1291912f",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "SUPPORTING",
+      "note": null
+    },
+    {
+      "evidence_id": "bev_90eab9d3da782517",
+      "reference_id": "ref_586ab7f4c8cd45a3",
+      "capture_status": "captured",
+      "locator": "wikipedia_eiffel_tower.txt sentence containing 'designed and built the tower from 1887 to 1889'; line 1, characters 120-228 of the extracted text",
+      "anchor_text": "designed and built the tower from 1887 to 1889",
+      "end_anchor_text": null,
+      "passage_text": "It is named after the engineer Gustave Eiffel, whose company designed and built the tower from 1887 to 1889.",
+      "passage_sha256": "f9d32b11a9fc395fc0c05fdeff460dbb96cdd0e2769db15ddb91d732a64a0ab5",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "SUPPORTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [
+    {
+      "task": "Capture the official history page (toureiffel.paris) as a primary source",
+      "reason": "official site returned HTTP 403 to automated access on 2026-10-11; not bypassed",
+      "created_at": "2026-10-11T16:49:05.829156Z",
+      "created_by": "claude-assistant",
+      "resolved": false
+    }
+  ],
+  "proposed_label": {
+    "verdict": "SUPPORTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Article: built from 1887 to 1889; completed in 1889.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "dev",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

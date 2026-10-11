@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "item_id": "bmk_78006ce685e74018",
+  "original_claim_text": "Edmund Hillary and Tenzing Norgay made the first documented ascent of Mount Everest in 1953.",
+  "claim_text": "Edmund Hillary and Tenzing Norgay made the first documented ascent of Mount Everest in 1953.",
+  "domain": "history",
+  "difficulty": "easy",
+  "claim_types": [
+    "correct_assertion"
+  ],
+  "temporal_scope": null,
+  "original_context": "Mount Everest is the highest mountain above sea level, with an elevation of about 9,848 metres. It sits on the border between Nepal and China. The first confirmed ascent was made by Edmund Hillary and Tenzing Norgay in 1953.",
+  "split_recommendation": null,
+  "candidate_provenance": {
+    "author": "claude-assistant",
+    "author_type": "ai_assistant",
+    "created_at": "2026-10-11T16:49:05.829156Z",
+    "method": "adapted from the synthetic fixture 'Geography: Mount Everest'",
+    "notes": "AI-authored candidate. Not human-reviewed."
+  },
+  "evidence": [
+    {
+      "evidence_id": "bev_de5c726314673f1b",
+      "reference_id": "ref_3b70c83aa7822d3f",
+      "capture_status": "captured",
+      "locator": "wikipedia_mount_everest.txt sentence containing 'made the first documented ascent of Everest in 1953'; line 4, characters 2563-2682 of the extracted text",
+      "anchor_text": "made the first documented ascent of Everest in 1953",
+      "end_anchor_text": null,
+      "passage_text": "Tenzing Norgay and Edmund Hillary made the first documented ascent of Everest in 1953, using the Southeast Ridge route.",
+      "passage_sha256": "6b2fe0b42f1b7d4acd0716a96fa71184dbbb512600799a6a2c30ff60f82a0988",
+      "captured_at": "2026-10-11T16:49:05.829156Z",
+      "captured_by": "claude-assistant via scripts/build_benchmark_candidates.py",
+      "proposed_relation": "SUPPORTING",
+      "note": null
+    }
+  ],
+  "research_log": [],
+  "research_tasks": [],
+  "proposed_label": {
+    "verdict": "SUPPORTED",
+    "proposed_by": "claude-assistant",
+    "proposer_type": "ai_assistant",
+    "rationale": "Stated directly in the Everest article.",
+    "proposed_at": "2026-10-11T16:49:05.829156Z",
+    "notice": "proposed label: not human-reviewed ground truth"
+  },
+  "partition": "test",
+  "status_events": [
+    {
+      "from_status": null,
+      "to_status": "CANDIDATE",
+      "actor": "claude-assistant",
+      "reason": "candidate created",
+      "at": "2026-10-11T16:49:05.829156Z"
+    },
+    {
+      "from_status": "CANDIDATE",
+      "to_status": "READY_FOR_REVIEW",
+      "actor": "claude-assistant",
+      "reason": "evidence captured",
+      "at": "2026-10-11T16:49:05.829156Z"
+    }
+  ],
+  "claim_edits": [],
+  "approvals": [],
+  "notes": null
+}

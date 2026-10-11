@@ -9,6 +9,7 @@ from hallucination_lab.logging_utils import configure_logging
 from hallucination_lab.ui import (
     common,
     page_analyze,
+    page_benchmark,
     page_collections,
     page_dashboard,
     page_guide,
@@ -85,6 +86,9 @@ def main() -> None:
             title="Reference collections",
             icon=":material/library_books:",
             url_path="collections",
+        ),
+        st.Page(
+            page_benchmark.render, title="Benchmark", icon=":material/rule:", url_path="benchmark"
         ),
         st.Page(
             page_guide.render, title="Getting started", icon=":material/help:", url_path="start"
